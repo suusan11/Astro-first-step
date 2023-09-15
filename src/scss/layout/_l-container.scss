@@ -1,0 +1,6 @@
+@use "../foundation/mixin" as m;
+
+.l-container {
+    width: min(95%, 1200px);
+    margin: 0 auto;
+}

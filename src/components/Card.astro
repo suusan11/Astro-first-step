@@ -1,0 +1,33 @@
+---
+interface Props {
+	title: string;
+	text: string;
+}
+
+const { title, text } = Astro.props;
+---
+
+<div class="card">
+    <h3 class="card__title">{title}</h3>
+    <p class="card__text">{text}</p>
+</div>
+
+<style lang="scss">
+	@use "../scss/foundation/rem" as r;
+	.card {
+        border: 2px solid var(--color-black);
+        border-radius: 10px;
+        &__title {
+            font-size: r.f-rem(18);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        &__text {
+            font-size: r.f-rem(14);
+            white-space: pre-wrap; //JSONの改行
+            &.font-bold {
+                font-weight: 500;
+            }
+        }
+    }
+</style>

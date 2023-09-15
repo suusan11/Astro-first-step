@@ -1,0 +1,26 @@
+@use "sass:map";
+
+/*----------
+media query
+----------*/
+$breakpoints: (
+    sp_min: "screen and (max-width: 480px)",
+    sp_only: "screen and (min-width:896px) and (max-width:481px)",
+    sp: "screen and (max-width: 869px)",
+    pc: "screen and (max-width: 999px)",
+);
+@mixin mq($breakpoint) {
+    @media #{map.get($breakpoints, $breakpoint)} {
+        @content;
+    }
+}
+
+/*----------
+color change
+----------*/
+@mixin darkenText($color, $amount) {
+    color: darken($color: $color, $amount: $amount);
+}
+@mixin darkenBg($color, $amount) {
+    background-color: darken($color: $color, $amount: $amount);
+}

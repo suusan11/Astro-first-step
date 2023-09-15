@@ -1,0 +1,22 @@
+---
+interface Props {
+	text: string;
+	isWhite: boolean;
+}
+
+const { text, isWhite } = Astro.props;
+---
+
+<h2 class:list={['section__title', { white: isWhite }]}>{text}</h2>
+
+<style lang="scss">
+	@use "../scss/foundation/rem" as r;
+	.section__title {
+		font-size: r.f-rem(32);
+		font-weight: 700;
+		text-align: left;
+		&.white {
+			color: var(--color-white);
+		}
+	}
+</style>

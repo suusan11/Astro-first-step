@@ -1,0 +1,18 @@
+{
+  "name": "astro",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@fontsource/kanit": "^5.0.12",
+    "@fontsource/zen-kaku-gothic-new": "^5.0.11",
+    "astro": "^3.0.8",
+    "sass": "^1.67.0"
+  }
+}
