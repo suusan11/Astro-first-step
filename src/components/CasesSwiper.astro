@@ -1,0 +1,72 @@
+---
+import { Image } from 'astro:assets';
+import case1 from '../images/cases/case1.jpg';
+import case2 from '../images/cases/case2.jpg';
+import case3 from '../images/cases/case3.jpg';
+import case4 from '../images/cases/case4.jpg';
+import case5 from '../images/cases/case5.jpg';
+import case6 from '../images/cases/case6.jpg';
+
+const cases = [
+	{
+		href: "https://www.kindai.ac.jp/covid19/",
+		img: case1,
+		alt: "近畿大学の新型コロナウイルス感染症対応"
+	},
+	{
+		href: "https://jp-news.mercari.com/10th-anniversary/",
+		img: case2,
+		alt: "メルカリ10周年特設サイト"
+	},
+	{
+		href: "https://www.kindai.ac.jp/covid19/",
+		img: case3,
+		alt: "近畿大学の新型コロナウイルス感染症対応"
+	},
+	{
+		href: "https://corp.infomart.co.jp/",
+		img: case4,
+		alt: "株式会社インフォマート"
+	},
+	{
+		href: "https://newpeace.jp/",
+		img: case5,
+		alt: "NEWPEACE"
+	},
+	{
+		href: "https://visit-teshikaga.com/ja/",
+		img: case6,
+		alt: "北海道弟子屈町 行きたいまちへ、生きたいまちへ。"
+	}
+]
+
+import 'swiper/css/bundle';
+---
+<div class="cases-swiper swiper">
+    <div class="swiper-wrapper">
+        {cases.map((item) => (
+            <div class="case swiper-slide">
+                <a href={item.href}><Image src={item.img} alt={item.alt} /></a>
+            </div>
+        ))}
+    </div>
+</div>
+
+<script>
+    import Swiper from 'swiper/bundle';
+    const swiper = new Swiper(".cases-swiper", {
+        loop: true,
+        autoplay: {
+            delay: 3000,
+        },
+        speed: 2000,
+        slidesPerView: 1,
+        spaceBetween: 10,
+    });
+</script>
+
+<style lang="scss">
+    .cases-swiper {
+        margin-bottom: 4rem;
+    }
+</style>

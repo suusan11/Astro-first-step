@@ -1,0 +1,36 @@
+@use "../../scss/foundation/rem" as r;
+
+.pg-recommend {
+    margin-bottom: 2rem;
+    .recommend__list {
+        li {
+            position: relative;
+            font-size: r.f-rem(16);
+            font-weight: 700;
+            line-height: 1.4;
+            padding-left: 1.3rem;
+            text-indent: -1.3rem;
+            margin-bottom: 1rem;
+            &::before {
+                content: '';
+                display: inline-block;
+                background-repeat: no-repeat;
+                width: 16px;
+                height: 16px;
+                line-height: 1.4;
+                margin-right: 0.3rem;
+            }
+            &.recommend {
+                .text-underline {
+                    background:linear-gradient(transparent 60%, #F24F1D 60%);
+                }
+                &::before {
+                    background-image: url('../../images/circle.svg');
+                }
+            }
+            &.unrecommend::before {
+                background-image: url('../../images/triangle.svg');
+            }
+        }
+    }
+}
