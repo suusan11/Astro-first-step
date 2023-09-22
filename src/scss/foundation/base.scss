@@ -7,6 +7,8 @@
     --color-blue-light: #12A7E6;
     --color-orange: #F24F1D;
     --color-purple: #AD17BF;
+    --color-gray: #EEEEEC;
+    --color-red: #EB5657;
     --font-jp: 'Zen Kaku Gothic New', sans-serif;
     --font-en: 'Kanit', sans-serif;
 }
@@ -36,6 +38,13 @@ body {
     letter-spacing: 0.1rem;
     font-weight: 400;
     margin: 0;
+    &.is__open {
+        position: fixed;
+    }
+}
+
+main {
+    overflow-x: hidden;
 }
 
 a {
@@ -73,4 +82,8 @@ break depend on the browser size
     @include m.mq(sp_min){
         display: block;
     }
+}
+
+.font-en {
+    font-family: var(--font-en);
 }

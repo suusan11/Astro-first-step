@@ -2,11 +2,30 @@
 
 ---
 
-<div class="text-scroll">It should be impossible  to build a slow website in Astro.</div>
+<div class="text-scroll font-en">
+    <span class="text">It should be impossible to build a slow website in Astro. It should be impossible to build a slow website in Astro. It should be impossible to build a slow website in Astro. It should be impossible to build a slow website in Astro. It should be impossible to build a slow website in Astro. It should be impossible to build a slow website in Astro. It should be impossible to build a slow website in Astro. It should be impossible to build a slow website in Astro. It should be impossible to build a slow website in Astro. It should be impossible to build a slow website in Astro.</span>
+    <span class="text">It should be impossible to build a slow website in Astro. It should be impossible to build a slow website in Astro. It should be impossible to build a slow website in Astro. It should be impossible to build a slow website in Astro. It should be impossible to build a slow website in Astro. It should be impossible to build a slow website in Astro. It should be impossible to build a slow website in Astro. It should be impossible to build a slow website in Astro. It should be impossible to build a slow website in Astro. It should be impossible to build a slow website in Astro.</span>
+    <span class="text">It should be impossible to build a slow website in Astro. It should be impossible to build a slow website in Astro. It should be impossible to build a slow website in Astro. It should be impossible to build a slow website in Astro. It should be impossible to build a slow website in Astro. It should be impossible to build a slow website in Astro. It should be impossible to build a slow website in Astro. It should be impossible to build a slow website in Astro. It should be impossible to build a slow website in Astro. It should be impossible to build a slow website in Astro.</span>
+</div>
 
 <style lang="scss">
 	@use "../scss/foundation/rem" as r;
 	.text-scroll {
-        
+        border-width: 3px 0;
+        border-style: solid;
+        border-color: var(--color-black);
+        background-color: var(--color-purple);
+        font-size: r.f-rem(40);
+        font-weight: 700;
+        white-space: nowrap;
+        span {
+            display: inline-block;
+            animation: textScroll 100s linear infinite;
+        }
+    }
+
+    @keyframes textScroll {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-100%); }
     }
 </style>

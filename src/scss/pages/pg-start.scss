@@ -1,0 +1,39 @@
+@use "../../scss/foundation/rem" as r;
+
+.pg-start {
+    position: relative;
+    background-color: var(--color-blue-dark);
+    padding: 4rem 0;
+    &::before {
+        position: absolute;
+        top: -80px;
+        right: 8%;
+        content: '🪐';
+        display: inline-block;
+        font-size: r.f-rem(100);
+        transform: rotate(-68deg);
+    }
+    &::after {
+        position: absolute;
+        bottom: 70px;
+        left: 3%;
+        content: '🚀';
+        display: inline-block;
+        font-size: r.f-rem(80);
+    }
+    .button {
+        margin-bottom: 2rem;
+    }
+    .code {
+        display: grid;
+        place-content: center;
+        width: 90%;
+        background-color: var(--color-gray);
+        color: var(--color-red);
+        font-family: var(--font-en);
+        font-size: r.f-rem(16);
+        font-weight: 500;
+        padding: 1rem;
+        margin: 0 auto;
+    }
+}

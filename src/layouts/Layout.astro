@@ -1,5 +1,6 @@
 ---
 //font
+import '@fontsource/zen-kaku-gothic-new/300.css';
 import '@fontsource/zen-kaku-gothic-new/400.css';
 import '@fontsource/zen-kaku-gothic-new/500.css';
 import '@fontsource/zen-kaku-gothic-new/700.css';
@@ -10,6 +11,7 @@ import '@fontsource/kanit/700.css';
 //common css
 import '../scss/foundation/reset.scss'
 import '../scss/foundation/base.scss'
+import '../scss/foundation/layout.scss'
 
 interface Props {
 	title: string;
@@ -31,27 +33,30 @@ const { title } = Astro.props;
 	</head>
 	<body>
 		<div class="main__wrapper">
-			<!-- <header>
+			<header>
 				<div class="global__menu">
-					<div id="js-menu-toggle" class="menu__toggle">
-						<div class="bg"></div>
-						<div class="icon">
-							<div class="border"></div>
-							<div class="border"></div>
-							<div class="border"></div>
+					<div id="js-open-toggle" class="open__toggle">
+						<span class="border"></span>
+						<span class="border"></span>
+						<span class="border"></span>
+					</div>
+					<div class="menu__container">
+						<div class="menu__wrap">
+							<div id="js-close-toggle" class="close__toggle">
+							<span class="border"></span>
+							<span class="border"></span>
+							</div>
+							<nav class="inner">
+								<ul>
+									<li>home</li>
+									<li>link a</li>
+									<li>link b</li>
+								</ul>
+							</nav>
 						</div>
 					</div>
-					<div class="menu__wrap">
-						<nav class="inner">
-							<ul>
-								<li>home</li>
-								<li>link a</li>
-								<li>link b</li>
-							</ul>
-						</nav>
-					</div>
 				</div>
-			</header> -->
+			</header>
 			<slot />
 			<footer>
 				<small>&copy;2023 MIE SUZUKI developed by 🐣</small>
@@ -63,149 +68,116 @@ const { title } = Astro.props;
 	@use "../scss/foundation/rem" as r;
 
 	.main__wrapper {
+		position: relative;
 		@media (min-width: 980px) {
-			max-width: 375px;
+			width: 375px;
 			box-shadow: 0 5px 60px #9e9c8999;
 			margin: 0 auto;
 		}
 	}
 	header {
-		.hamburger  {
-			margin-bottom: 4rem;
-			section {
-				position: relative;
-				display: grid;
-				place-content: center;
-				height: 100vh;
-				font-family: sans-serif;
-				h2 {
-					font-size: 80px;
+		.open__toggle {
+			position: absolute;
+			top: 0.5rem;
+			right: 0.5rem;
+			width: 45px;
+			height: 45px;
+			background-color: var(--color-blue-dark);
+			border-radius: 50%;
+			cursor: pointer;
+			.border {
+				display: inline-block;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				width: 33%;
+				height: 2px;
+				background-color: var(--color-black);
+				&:nth-child(1) {
+					transform: translate(-50%, -5px);
+				}
+				&:nth-child(2) {
+					transform: translate(-50%, -1px);
+				}
+				&:nth-child(3) {
+					transform: translate(-50%, 3px);
 				}
 			}
 		}
-		.hamburger1 {
-			section {
-				background-color: #BED4BF;
-			}
-			.global__menu {
-				width: 100%;
-				padding: 1rem;
-			}
-			.menu__toggle {
-				position: absolute;
-				top: 1rem;
-				right: 1rem;
-				width: 45px;
-				height: 45px;
+		.menu__container {
+			position: fixed;
+			top: 0;
+			left: 0;
+			display: grid;
+			place-content: center;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(#000000, 0.8);
+			visibility: hidden;
+			opacity: 0;
+			pointer-events: none;
+			z-index: -1;
+			.menu__wrap {
+				position: relative;
 				display: flex;
+				justify-content: flex-start;
 				align-items: center;
-				justify-content: center;
-				cursor: pointer;
-				z-index: 2;
-				.bg {
+				flex-direction: column;
+				flex-wrap: nowrap;
+				width: 300px;
+				max-width: calc(100% - 40px);
+				height: auto;
+				background-color: var(--color-blue-dark);
+				border-radius: 12px;
+				color: var(--color-white);
+				margin: 20px;
+				padding: 56px 0px 56px 0px;
+				opacity: 0;
+				transform: translateY(100px);
+				transition: .3s cubic-bezier(.4,.4,0,1);
+				.close__toggle {
 					position: absolute;
-					left: 0;
-					top: 0;
-					width: 100%;
-					height: 100%;
-					background-color: #fff;
-					border-radius: 50%;
-					transition: background-color .4s;
-				}
-				.icon {
-					position: relative;
-					width: 100%;
+					top: 1rem;
+					right: 1rem;
+					width: 32px;
+					height: 32px;
+					cursor: pointer;
 					.border {
+						display: inline-block;
 						position: absolute;
 						top: 50%;
 						left: 50%;
-						width: 33%;
-						height: 2px;
-						transition: .4s ease-in-out;
-						overflow: hidden;
-						&::after {
-							content: "";
-							display: block;
-							width: 100%;
-							height: 100%;
-							position: relative;
-							border-radius: 2px;
-							background-color: #000;
-							transition: .4s ease-in-out;
-						}
+						width: 100%;
+						height: 4px;
+						background-color: var(--color-white);
 						&:nth-child(1) {
-							transform: translate(-50%,-5px);
+							transform: translate(-50%, -1px) rotate(45deg);
 						}
 						&:nth-child(2) {
-							transform: translate(-50%,-1px);
-						}
-						&:nth-child(3) {
-							transform: translate(-50%,3px);
+							transform: translate(-50%, -1px) rotate(-45deg);
 						}
 					}
 				}
-				@media (any-hover: hover) {
-				&:hover .border {
-					&:nth-child(1) {
-						transform: translate(-60%,-5px);
-					}
-					&:nth-child(2) {
-						transform: translate(-30%,-1px);
-					}
-					&:nth-child(3) {
-						transform: translate(-60%,3px);
-					}
-				}
-				}
-				&.is__open {
-					.bg {
-						background-color: #23352b;
-					}
-					.border {
-						&::after {
-							background-color: #fff;
-						}
-						&:nth-child(1) {
-							transform: translate(-50%,-1px) rotate(45deg);
-						}
-						&:nth-child(2) {
-							opacity: 0;
-						}
-						&:nth-child(3) {
-							transform: translate(-50%,-1px) rotate(-45deg);
-						}
-					}
-					@media (any-hover: hover) {
-						&:hover .border {
-						&:nth-child(1) {
-							transform: translate(-50%,-1px) rotate(30deg);
-						}
-						&:nth-child(3) {
-							transform: translate(-50%,-1px) rotate(-30deg);
-						}
-						}
-					}
-				}
-			}
-			.menu__wrap {
-				// position: fixed;
-				position: absolute;
-				background-color: #E3EAE0;
-				clip-path: polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%);
-				top: 0;
-				right: 0;
-				width: 50%;
-				height: 100%;
-				padding: 8rem 4rem;
 				.inner {
 					width: 100%;
 					height: 100%;
 					li {
+						font-family: var(--font-en);
 						font-size: 32px;
 						text-transform: uppercase;
-						text-align: left;
+						text-align: center;
 						line-height: 2;
 					}
+				}
+			}
+			&.is__open {
+				visibility: visible;
+				opacity: 1;
+				pointer-events: all;
+				z-index: 5;
+				.menu__wrap {
+					opacity: 1;
+					transform: translateY(0);
 				}
 			}
 		}
@@ -215,5 +187,38 @@ const { title } = Astro.props;
 		font-size: r.f-rem(10);
 		font-weight: 300;
 		text-align: left;
+		padding: 0.5rem 1rem;
 	}
 </style>
+
+<script>
+	// Add target and rel to external links
+	const domain = document.domain;
+	const regexp = new RegExp(domain);
+	const links = document.getElementsByTagName('a');
+	for(let link of links) {
+		if(!regexp.test(link.href)) {
+			if(link.href.match(/^https:\/\//) || link.href.match(/^http:\/\//)) {
+				link.setAttribute('target', '_blank');
+				link.setAttribute('rel', 'noopener');
+			}
+		}else if(link.href.match(/\.pdf/)) {
+			link.setAttribute('target', '_blank');
+			link.setAttribute('rel', 'noopener');
+		}
+	}
+
+	// global menu
+	const openBtn = document.getElementById('js-open-toggle');
+	const closeBtn = document.getElementById('js-close-toggle');
+	const menuContainer = document.querySelector('.menu__container');
+	const body = document.querySelector('body');
+	openBtn.addEventListener('click', () => {
+		menuContainer.classList.add('is__open');
+		body.classList.add('is__open');
+	});
+	closeBtn.addEventListener('click', () => {
+		menuContainer.classList.remove('is__open');
+		body.classList.remove('is__open');
+	});
+</script>

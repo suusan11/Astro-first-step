@@ -1,0 +1,70 @@
+<astro-heart>
+    <!-- <div class="intractive__button">
+        <button aria-label="Heart">💜</button> × <span class="num">0</span>
+    </div> -->
+    <div class="intractive__button">
+        <p class="button__inner">
+            <span class="emoji">🤩</span>
+            <span class="text"> WOW x </span>
+            <span class="num">0</span>
+        </p>
+    </div>
+</astro-heart>
+
+<script>
+    // 新しいタイプのHTML要素の動作を定義する
+    class AstroHeart extends HTMLElement {
+        constructor() {
+        super();
+        let count = 0;
+
+        const heartButton = this.querySelector('.intractive__button');
+        const countSpan = this.querySelector('.num');
+
+        // ボタンがクリックされるごとにカウントを更新する。
+        heartButton.addEventListener('click', () => {
+            count++;
+            String(count);
+            countSpan.textContent = count;
+        });
+        }
+    }
+
+    // <astro-heart>要素としてAstroHeartクラスを利用することをブラウザに教える
+    customElements.define('astro-heart', AstroHeart);
+</script>
+
+<style lang="scss">
+    @use "../scss/foundation/rem" as r;
+
+    .intractive__button {
+        display: grid;
+        place-content: center;
+        width: 60%;
+        height: 52px;
+        border-radius: 10px;
+        border: 2px solid var(--color-black);
+        background-color: var(--color-white);
+        border-bottom: solid 4px var(--color-black);
+        padding: 0 0.5rem;
+        margin: 0 auto;
+        cursor: pointer;
+        &:active {
+            transform: translateY(2px);
+            border-bottom: solid 2px var(--color-black);
+        }
+        .button__inner {
+            line-height: 1;
+            .emoji {
+                font-size: r.f-rem(40);
+            }
+            .text,
+            .num {
+                font-family: var(--font-en);
+                font-size: r.f-rem(26);
+                font-weight: 700;
+                vertical-align: super;
+            }
+        }
+    }
+</style>

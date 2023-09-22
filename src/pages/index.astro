@@ -4,15 +4,17 @@ import TextScroll from '../components/TextScroll.astro';
 import CommonButton from '../components/CommonButton.astro';
 import SectionTitle from '../components/SectionTitle.astro';
 import Card from '../components/Card.astro';
+import CasesSwiper from '../components/CasesSwiper.astro';
+
+import '../scss/pages/pg-hero.scss'
+import '../scss/pages/pg-features.scss'
+import '../scss/pages/pg-advantage.scss'
+import '../scss/pages/pg-recommend.scss'
+import '../scss/pages/pg-start.scss'
 
 import { Image } from 'astro:assets';
 import heroImage from '../images/astronaut.png';
-import case1 from '../images/cases/case1.jpg';
-import case2 from '../images/cases/case2.jpg';
-import case3 from '../images/cases/case3.jpg';
-import case4 from '../images/cases/case4.jpg';
-import case5 from '../images/cases/case5.jpg';
-import case6 from '../images/cases/case6.jpg';
+import CountButton from '../components/CountButton.astro';
 
 const featuresCard = [
 	{
@@ -42,88 +44,54 @@ const advantageCard = [
 		text: "Astroプロジェクトで.tsや.tsxファイルをインポートしたり、Astroコンポーネントの中で直接TypeScriptコードを書いたり、astro.config.tsファイルを使うこともできます。"
 	}
 ]
-const cases = [
-	{
-		href: "https://www.kindai.ac.jp/covid19/",
-		img: case1,
-		alt: "近畿大学の新型コロナウイルス感染症対応"
-	},
-	{
-		href: "https://jp-news.mercari.com/10th-anniversary/",
-		img: case2,
-		alt: "メルカリ10周年特設サイト"
-	},
-	{
-		href: "https://www.kindai.ac.jp/covid19/",
-		img: case3,
-		alt: "近畿大学の新型コロナウイルス感染症対応"
-	},
-	{
-		href: "https://corp.infomart.co.jp/",
-		img: case4,
-		alt: "株式会社インフォマート"
-	},
-	{
-		href: "https://newpeace.jp/",
-		img: case5,
-		alt: "NEWPEACE"
-	},
-	{
-		href: "https://visit-teshikaga.com/ja/",
-		img: case6,
-		alt: "北海道弟子屈町 行きたいまちへ、生きたいまちへ。"
-	}
-]
 ---
 
 <Layout title="Welcome to Astro.">
 	<main>
-		<section class="pg-hero l-container">
+		<section class="pg-hero">
 			<TextScroll />
-			<p class="hero__img"><Image src={heroImage} alt="宇宙飛行士"/></p>
-			<h3 class="title">Astro is...</h3>
-			<p class="lead">Astroは高パフォーマンスな静的サイトをつくる静的サイトジェネレーターです。ビルド時に可能な限りJavaScriptを排除（Partial Hydration）するため、<span class="font-bold">軽量</span>かつ<span class="font-bold">スピードの早い</span>パフォーマンスに優れたサイトを実現します</p>
-			<CommonButton href="https://astro.build/">
+			<div class="l-container">
+				<p class="hero__img"><Image src={heroImage} alt="宇宙飛行士"/></p>
+				<h3 class="title">Astro is...</h3>
+				<p class="lead">Astroは高パフォーマンスな静的サイトをつくる静的サイトジェネレーターです。ビルド時に可能な限りJavaScriptを排除（Partial Hydration）するため、<span class="font-bold">軽量</span>かつ<span class="font-bold">スピードの早い</span>パフォーマンスに優れたサイトを実現します</p>
+				<CommonButton href="https://astro.build/">
+			</div>
 		</section>
-		<section class="pg-features l-container">
-			<SectionTitle text="特徴" isWhite={true} />
-			{featuresCard.map((card) => (
-				<Card title={card.title} text={card.text} />
-			))}
-			<div class="feature__intractive">
-				<h3 class="title">こんな感じで<br>インタラクティブに<br>できるよ</h3>
-				<div class="intractive__button">🤩 WOW x</div>
+		<section class="pg-features">
+			<div class="l-container">
+				<SectionTitle text="特徴" isWhite={true} />
+				{featuresCard.map((card) => (
+					<Card title={card.title} text={card.text} />
+				))}
+				<div class="feature__intractive">
+					<h3 class="title">こんな感じで<br>インタラクティブに<br>できるよ</h3>
+					<CountButton />
+				</div>
 			</div>
 		</section>
 		<section class="pg-advantage">
-			<SectionTitle text="メリット" isWhite={true} />
-			{advantageCard.map((card) => (
-				<Card title={card.title} text={card.text} />
-			))}
+			<div class="l-container">
+				<SectionTitle text="メリット" isWhite={true} />
+				{advantageCard.map((card) => (
+					<Card title={card.title} text={card.text} />
+				))}
+			</div>
 			<TextScroll />
 		</section>
 		<section class="pg-recommend l-container">
 			<SectionTitle text="こんなサイトに..." isWhite={false} />
-			<ul>
-				<li class="recommend">高パフォーマンスな静的サイトを構築したい</li>
-				<li class="recommend">Next.jsやNuxtJSがオーバースペックに感じるサイト</li>
-				<li class="recommend">JSフレームワークを使いつつ、不要なJavaScriptは省きたい</li>
-				<li class="recommend">コンポーネント指向で開発したい</li>
+			<ul class="recommend__list">
+				<li class="recommend"><span class="text-underline">高パフォーマンスな静的サイトを構築したい</span></li>
+				<li class="recommend"><span class="text-underline">Next.jsやNuxtJSがオーバースペックに感じるサイト</span></li>
+				<li class="recommend"><span class="text-underline">JSフレームワークを使いつつ、不要なJavaScriptは省きたい</span></li>
+				<li class="recommend"><span class="text-underline">コンポーネント指向で開発したい</span></li>
 				<li class="unrecommend">アプリ開発</li>
 				<li class="unrecommend">SPA</li>
 			</ul>
 		</section>
 		<section class="pg-cases l-container">
 			<SectionTitle text="導入事例" isWhite={false} />
-			<div class="cases-swiper">
-				<div class="swiper-wrapper">
-					{cases.map((item) => (
-						<div class="case swiper-slide">
-							<a href={item.href}><Image src={item.img} alt={item.alt} /></a>
-						</div>
-					))}
-				</div>
-			</div>
+			<CasesSwiper />
 		</section>
 		<section class="pg-start">
 			<div class="l-container">
