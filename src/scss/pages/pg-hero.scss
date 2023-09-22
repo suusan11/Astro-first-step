@@ -1,0 +1,10 @@
+.pg-hero {
+    position: relative;
+    background-color: var(--color-blue-dark);
+    padding-top: 10rem;
+    &::before {
+        content: '';
+        display: inline-block;
+        background-color: var(--color-blue-dark);
+    }
+}
