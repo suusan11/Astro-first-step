@@ -30,10 +30,10 @@
     .lead {
         color: var(--color-white);
         font-size: r.f-rem(16);
-        font-weight: 300;
         margin-bottom: 2rem;
         .font-bold {
             font-weight: 500;
+            text-decoration: underline;
         }
     }
 }

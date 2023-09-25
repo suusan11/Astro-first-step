@@ -5,7 +5,6 @@
     .recommend__list {
         li {
             position: relative;
-            font-size: r.f-rem(16);
             font-weight: 700;
             line-height: 1.4;
             padding-left: 1.3rem;
@@ -21,15 +20,19 @@
                 margin-right: 0.3rem;
             }
             &.recommend {
+                font-size: r.f-rem(18);
                 .text-underline {
-                    background:linear-gradient(transparent 60%, #F24F1D 60%);
+                    background:linear-gradient(transparent 70%, #F24F1D 60%);
                 }
                 &::before {
                     background-image: url('../../images/circle.svg');
                 }
             }
-            &.unrecommend::before {
-                background-image: url('../../images/triangle.svg');
+            &.unrecommend {
+                font-size: r.f-rem(16);
+                &::before {
+                    background-image: url('../../images/triangle.svg');
+                }
             }
         }
     }
