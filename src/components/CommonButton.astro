@@ -6,9 +6,9 @@ interface Props {
 const { href } = Astro.props;
 ---
 
-<a href={href} class="button">Get started</a>
+<a href={href} class="button js-text-split">Get started</a>
 
-<style lang="scss">
+<style lang="scss" is:global>
 	@use "../scss/foundation/rem" as r;
 	.button {
 		display: block;
@@ -22,5 +22,39 @@ const { href } = Astro.props;
 		text-align: center;
 		padding: 0.5rem 0;
 		margin: 0 auto;
+		@media (any-hover: hover) {
+			&:hover {
+				.button__char {
+					animation: char-blink .13s linear;
+					animation-iteration-count: 2;
+				}
+			}
+		}
+	}
+	@keyframes char-blink {
+		0% {
+			opacity: 1;
+		}
+		50% {
+			opacity: 0.35;
+		}
+		100% {
+			opacity: 1;
+		}
 	}
 </style>
+
+<script>
+	const wrapCharSpan = function(chars) {
+		return [...chars].map(char => `<span class="button__char">${char}</span>`).join('');
+	}
+	const buttonText = document.querySelectorAll('.js-text-split');
+	buttonText.forEach(button => {
+		button.innerHTML = wrapCharSpan(button.textContent);
+	})
+	const blinkChars = document.querySelectorAll('.button__char');
+	for(let i = 0; i < blinkChars.length; i++) {
+		const delayTime = Math.random() * 0.1;
+		blinkChars[i].style.animationDelay = `${delayTime}s`
+	}
+</script>
