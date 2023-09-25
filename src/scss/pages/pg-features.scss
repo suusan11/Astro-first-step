@@ -22,6 +22,12 @@
             font-weight: 700;
             line-height: 1.4;
             text-align: center;
+            .font-sm {
+                display: block;
+                font-family: var(--font-en);
+                font-size: r.f-rem(18);
+                margin-top: 1rem;
+            }
             &::after {
                 content: '';
                 display: block;
@@ -29,7 +35,7 @@
                 height: 58px;
                 background: url('../../images/arrow.svg') no-repeat;
                 background-size: contain;
-                margin: 1rem auto;
+                margin: 0.5rem auto 1rem;
             }
         }
     }
