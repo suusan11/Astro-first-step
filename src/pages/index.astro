@@ -19,21 +19,21 @@ import CountButton from '../components/CountButton.astro';
 const featuresCard = [
 	{
 		title: "サーバーファースト",
-		text: "Astroは、従来のサーバーサイドフレームワーク（PHPやRuby on Railsなど）と同じサーバーサイドのレンダリングを可能な限り活用します。\nこれは、近年のモダンなJavaScriptフレームワークのクライアントサイドレンダリングとは対照的なアプローチです。"
+		text: "従来のサーバーサイドフレームワーク（PHPやRuby on Railsなど）と同じサーバーサイドのレンダリングを可能な限り活用します。\nこれは、近年のモダンなJavaScriptフレームワークのクライアントサイドレンダリングとは対照的なアプローチです。"
 	},
 	{
 		title: "アイランド",
-		text: "静的コンテンツUIと、ReactやVueなどを使ってインタラクティブにしたUIをそれぞれ島のように孤立させ、一つのページで共存させます。大部分の島はHTMLやCSSで構成され、インタラクティブな島だけJSを読み込ませます。結果、軽量化が実現されます。"
+		text: "静的コンテンツUIと、インタラクティブUI(ReactやVueなどを用いた)をそれぞれ島のように孤立させ、一つのページで共存させます。大部分の島はHTMLやCSSで構成されるため、インタラクティブな島だけにJSを読み込ませます。結果、軽量化が実現されます。"
 	},
 	{
 		title: "複雑さへのオプトイン",
-		text: ".astroファイルは、HTML とよく似たシンタックスを使用し、開発者の体験から「必要な複雑さ」を可能な限り取り除くように設計されています。\nさらにReactやVueなどがすべてサポートされているので、すでに知っている好きなUIコンポーネント言語が使えます。"
+		text: ".astroファイルは、HTML とよく似たシンタックスを使用し、「必要な複雑さ」を可能な限り取り除いています。\n新しい機能やAPIを段階的に追加することで、よりダイナミックなサイトを構築することも可能です。"
 	}
 ]
 const advantageCard = [
 	{
 		title: "ファイルベースのルーティングシステム",
-		text: "src/pages/ディレクトリ以下に.astroか.mdを配置することで、自動的に静的なルーティングを設定できます。"
+		text: "src/pages/ディレクトリ以下に.astroか.mdを配置すると、自動的に静的なルーティングを設定できます。"
 	},
 	{
 		title: "Markdown形式をサポート",
@@ -41,7 +41,7 @@ const advantageCard = [
 	},
 	{
 		title: "TypeScriptのサポート",
-		text: "Astroプロジェクトで.tsや.tsxファイルをインポートしたり、Astroコンポーネントの中で直接TypeScriptコードを書いたり、astro.config.tsファイルを使うこともできます。"
+		text: ".tsや.tsxファイルをインポートしたり、コンポーネントの中で直接TypeScriptコードを書いたり、astro.config.tsファイルを使うこともできます。"
 	}
 ]
 ---
@@ -51,7 +51,7 @@ const advantageCard = [
 		<section class="pg-hero">
 			<TextScroll />
 			<div class="l-container">
-				<p class="hero__img"><Image src={heroImage} alt="宇宙飛行士"/></p>
+				<p class="hero__img ukiyo"><Image src={heroImage} alt="宇宙飛行士" /></p>
 				<h3 class="title">Astro is...</h3>
 				<p class="lead">Astroは高パフォーマンスな静的サイトをつくる静的サイトジェネレーターです。ビルド時に可能な限りJavaScriptを排除（Partial Hydration）するため、<span class="font-bold">軽量</span>かつ<span class="font-bold">スピードの早い</span>パフォーマンスに優れたサイトを実現します</p>
 				<CommonButton href="https://astro.build/">
