@@ -68,5 +68,48 @@ import 'swiper/css/bundle';
 <style lang="scss">
     .cases-swiper {
         margin-bottom: 4rem;
+		.case {
+			position: relative;
+			display: block;
+			width: 100%;
+			height: 100%;
+			cursor: pointer;
+			&::before {
+				content: '';
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background-color: rgba(#FFF, 0.7);
+				border: 3px solid var(--color-black);
+				opacity: 0;
+				z-index: 2;
+				transition: opacity 0.2s linear;
+			}
+			&::after {
+				content: '';
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				width: 40px;
+				height: 40px;
+				background: url('../images/external-link.svg') no-repeat;
+				background-position: center;
+				background-size: contain;
+				opacity: 0;
+				z-index: 2;
+				transition: opacity 0.2s linear;
+			}
+			@media (any-hover: hover) {
+				&:hover {
+					&::before,
+					&::after {
+						opacity: 1;
+					}
+				}
+			}
+		}
     }
 </style>
