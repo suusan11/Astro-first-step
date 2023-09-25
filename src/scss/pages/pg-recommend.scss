@@ -14,23 +14,28 @@
                 content: '';
                 display: inline-block;
                 background-repeat: no-repeat;
-                width: 16px;
-                height: 16px;
                 line-height: 1.4;
                 margin-right: 0.3rem;
             }
             &.recommend {
                 font-size: r.f-rem(18);
                 .text-underline {
-                    background:linear-gradient(transparent 70%, #F24F1D 60%);
+                    background:linear-gradient(transparent 75%, #F24F1D 60%);
+                }
+                &.mgb {
+                    margin-bottom: 2rem;
                 }
                 &::before {
+                    width: 16px;
+                    height: 16px;
                     background-image: url('../../images/circle.svg');
                 }
             }
             &.unrecommend {
-                font-size: r.f-rem(16);
+                font-size: r.f-rem(14);
                 &::before {
+                    width: 14px;
+                    height: 14px;
                     background-image: url('../../images/triangle.svg');
                 }
             }
