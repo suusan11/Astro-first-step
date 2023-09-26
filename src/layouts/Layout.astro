@@ -17,9 +17,10 @@ interface Props {
 	title: string,
 	description: string,
 	dir: string,
+	path: string,
 }
 
-const { title, description, dir } = Astro.props;
+const { title, description, dir, path } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -65,8 +66,8 @@ const { title, description, dir } = Astro.props;
 							<nav class="inner">
 								<ul>
 									<li><a href="/">home</a></li>
-									<li><a href="/page-a">page a</a></li>
-									<li><a href="/page-b">page b</a></li>
+									<li><a href=`${path}page-a`>page a</a></li>
+									<li><a href=`${path}page-b`>page b</a></li>
 								</ul>
 							</nav>
 						</div>
