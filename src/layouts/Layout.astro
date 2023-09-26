@@ -14,10 +14,12 @@ import '../scss/foundation/base.scss'
 import '../scss/foundation/layout.scss'
 
 interface Props {
-	title: string;
+	title: string,
+	description: string,
+	dir: string,
 }
 
-const { title } = Astro.props;
+const { title, description, dir } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -25,11 +27,24 @@ const { title } = Astro.props;
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-		<meta name="description" content="<%= meta.description %>">
+		<title>{title}</title>
+		<meta name="description" content={description}>
 		<meta name="keywords" content="">
+		<!-- ogp -->
+		<meta property="og:title" content={title} />
+		<meta property="og:type" content="website" />
+		<meta property="og:image" content="/public/opg-img.jpg" />
+		<meta property="og:description" content={description} />
+		<meta name="twitter:card" content="Summary with Large Image" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+		<meta name="ROBOTS" content="NOODP" />
+		<link rel="canonical" href=`https://exapmle.com/${dir}`>
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
+		<!-- favicon -->
+		<link rel="icon" href="/public/favicon.ico" sizes="any">
+		<link rel="icon" href="/public/favicon.svg" type="image/svg+xml">
+		<link rel="apple-touch-icon" href="/public/apple-touch-icon.png">
 	</head>
 	<body>
 		<div class="bg-pc"></div>

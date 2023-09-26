@@ -1,8 +1,14 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import PageTitle from '../components/PageTitle.astro';
+
+const metas = {
+	title: "Page A",
+	discription: "Astroの魅力を伝えるサイトです。",
+	dir: '/page-a'
+}
 ---
-<Layout title="Page A">
+<Layout title={metas.title} description={metas.discription}, dir={metas.dir}>
     <section class="second-page">
         <PageTitle text="This is Page A" />
     </section>

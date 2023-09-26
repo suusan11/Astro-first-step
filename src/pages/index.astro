@@ -44,9 +44,15 @@ const advantageCard = [
 		text: ".tsや.tsxファイルをインポートしたり、コンポーネントの中で直接TypeScriptコードを書いたり、astro.config.tsファイルを使うこともできます。"
 	}
 ]
+
+const metas = {
+	title: "Astro is the one.",
+	discription: "Astroの魅力を伝えるサイトです。",
+	dir: ''
+}
 ---
 
-<Layout title="Welcome to Astro.">
+<Layout title={metas.title} description={metas.discription}, dir={metas.dir}>
 	<main>
 		<section class="pg-hero">
 			<TextScroll />
