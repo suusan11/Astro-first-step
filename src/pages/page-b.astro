@@ -1,0 +1,17 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageTitle from '../components/PageTitle.astro';
+---
+<Layout title="Page B">
+    <section class="second-page">
+        <PageTitle text="This is Page B" />
+    </section>
+</Layout>
+
+<style lang="scss">
+    .second-page {
+        display: grid;
+        place-content: center;
+        height: 100vh;
+    }
+</style>
