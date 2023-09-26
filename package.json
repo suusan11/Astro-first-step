@@ -12,6 +12,7 @@
   "dependencies": {
     "@fontsource/kanit": "^5.0.12",
     "@fontsource/zen-kaku-gothic-new": "^5.0.11",
+    "@studio-freight/lenis": "^1.0.23",
     "astro": "^3.0.8",
     "sass": "^1.67.0",
     "swiper": "^8.4.7"
