@@ -1,0 +1,19 @@
+---
+interface Props {
+	text: string;
+}
+
+const { text } = Astro.props;
+---
+
+<h1 class="page-title">{ text }</h1>
+
+<style lang="scss" is:global>
+    @use "../scss/foundation/rem" as r;
+
+    .page-title {
+        text-align: center;
+        font-size: r.f-rem(32);
+        font-weight: 700;
+    }
+</style>
