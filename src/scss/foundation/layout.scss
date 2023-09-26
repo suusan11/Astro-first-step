@@ -28,3 +28,9 @@
 .l-bg-white {
     background-color: var(--color-white);
 }
+
+.l-second-page {
+    display: grid;
+    place-content: center;
+    height: 100vh;
+}
