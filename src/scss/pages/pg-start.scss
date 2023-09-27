@@ -15,7 +15,7 @@
     }
     &::after {
         position: absolute;
-        bottom: 70px;
+        bottom: 50px;
         left: 3%;
         content: '🚀';
         display: inline-block;
@@ -35,5 +35,11 @@
         font-weight: 500;
         padding: 1rem;
         margin: 0 auto;
+    }
+    .totop-image {
+        display: block;
+        width: 50px;
+        margin-top: 3rem;
+        margin-left: auto;
     }
 }
