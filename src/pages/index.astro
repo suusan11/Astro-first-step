@@ -62,7 +62,7 @@ const metas = {
 				<p class="hero__img"><Image src={heroImage} alt="宇宙飛行士" loading="eager"/></p>
 				<h3 class="title">Astro is...</h3>
 				<p class="lead">Astroは高パフォーマンスな静的サイトをつくる静的サイトジェネレーターです。ビルド時に可能な限りJavaScriptを排除（Partial Hydration）するため、<span class="font-bold">軽量</span>かつ<span class="font-bold">スピードの早い</span>パフォーマンスに優れたサイトを実現します</p>
-				<CommonButton href="https://astro.build/">
+				<CommonButton href="https://astro.build/" text="Get started" isEng={true}>
 			</div>
 		</section>
 		<section class="pg-features">
@@ -99,6 +99,15 @@ const metas = {
 				</ul>
 			</div>
 		</section>
+		<section class="pg-news l-bg-white">
+			<div class="l-container">
+				<SectionTitle text="CMSも使えるよ" isWhite={false} />
+				<ul class="news__wrap">
+					<li><a href=""><span class="date">2023/09/30</span><span class="title">ダミーテキストダミーテキストダミーテキスト</span></a></li>
+				</ul>
+				<CommonButton href=`${metas.path}page-a` text="一覧へ" isEng={false} />
+			</div>
+		</section>
 		<section class="pg-cases l-bg-white">
 			<div class="l-container">
 				<SectionTitle text="導入事例" isWhite={false} />
@@ -107,7 +116,7 @@ const metas = {
 		</section>
 		<section class="pg-start">
 			<div class="l-container">
-				<CommonButton href="https://astro.build/" />
+				<CommonButton href="https://astro.build/" text="Get started" isEng={true}/>
 				<p class="code">$ npm create astro@latest</p>
 				<a class="totop-image" href="/"><Image src={toTop} alt="先頭へ戻る"/></a>
 			</div>

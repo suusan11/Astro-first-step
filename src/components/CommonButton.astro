@@ -1,12 +1,14 @@
 ---
 interface Props {
-	href: string;
+	href: string,
+	text: string,
+	isEng: boolean,
 }
 
-const { href } = Astro.props;
+const { href, text, isEng } = Astro.props;
 ---
 
-<a href={href} class="button js-text-split">Get started</a>
+<a href={href} class:list={['button js-text-split', { font_en: isEng }]}>{text}</a>
 
 <style lang="scss" is:global>
 	@use "../scss/foundation/rem" as r;
@@ -16,7 +18,6 @@ const { href } = Astro.props;
 		border-radius: 30px;
 		border: 2px solid var(--color-black);
 		background-color: var(--color-orange);
-		font-family: var(--font-en);
 		font-size: r.f-rem(20);
 		font-weight: 500;
 		text-align: center;
