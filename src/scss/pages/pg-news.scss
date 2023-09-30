@@ -1,0 +1,20 @@
+@use "../../scss/foundation/rem" as r;
+
+.pg-news {
+    padding-bottom: 2rem;
+    .news__wrap {
+        li {
+            margin-bottom: 1rem;
+            cursor: pointer;
+            span {
+                display: block;
+            }
+            .date {
+                font-size: r.f-rem(12);
+            }
+            .title {
+                font-size: r.f-rem(16);
+            }
+        }
+    }
+}
