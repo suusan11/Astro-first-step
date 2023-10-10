@@ -1,0 +1,48 @@
+---
+interface Props {
+    thumbnail: string,
+    alt: string,
+	date: string,
+	title: string,
+    excerpt: string
+}
+
+const { thumbnail, alt, date, title, excerpt } = Astro.props;
+---
+
+<div class="news__card">
+    <p class="thumbnail"><img src={thumbnail} alt={alt} /></p>
+    <p class="date">{date}</p>
+    <p class="title">{title}</p>
+    <p class="excerpt">{excerpt}</p>
+</div>
+
+<style lang="scss">
+    @use "../scss/foundation/rem" as r;
+
+    .news__card {
+        text-align: left;
+        .thumbnail {
+            width: 100%;
+            img {
+                aspect-ratio: 16/9;
+            }
+        }
+        .date {
+            font-size: r.f-rem(12);
+        }
+        .title {
+            font-size: r.f-rem(16);
+            font-weight: 500;
+        }
+        .excerpt {
+            font-size: r.f-rem(16);
+            font-weight: 300;
+            &::after {
+                content: '...';
+                display: inline-block;
+                font-size: r.f-rem(16);
+            }
+        }
+    }
+</style>

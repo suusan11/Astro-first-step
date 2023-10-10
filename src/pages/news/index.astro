@@ -1,0 +1,26 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageTitle from '../../components/PageTitle.astro';
+import NewsCard from '../../components/NewsCard.astro';
+
+import news1 from '../../images/news/news01.jpg';
+import news2 from '../../images/news/news02.jpg';
+import news3 from '../../images/news/news03.jpg';
+
+const metas = {
+	title: "NEWS",
+	discription: "CMSのページ🍓",
+	dir: '/news',
+    path: '../'
+}
+---
+<Layout title={metas.title} description={metas.discription}, dir={metas.dir}, path={metas.path}>
+    <section class="l-second-page l-bg-white">
+        <div class="l-container">
+            <PageTitle text="お知らせ" />
+            <NewsCard thumbnail={news1.src} alt="ダミー画像" date="2023/09/30" title="ダミータイトル" excerpt="ダミーテキストダミーテキストダミーテキストダミーテキストダミーテキスト" />
+            <NewsCard thumbnail={news2.src} alt="ダミー画像" date="2023/09/30" title="ダミータイトル" excerpt="ダミーテキストダミーテキストダミーテキストダミーテキストダミーテキスト" />
+            <NewsCard thumbnail={news3.src} alt="ダミー画像" date="2023/09/30" title="ダミータイトル" excerpt="ダミーテキストダミーテキストダミーテキストダミーテキストダミーテキスト" />
+        </div>
+    </section>
+</Layout>
