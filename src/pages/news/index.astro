@@ -13,14 +13,38 @@ const metas = {
 	dir: '/news',
     path: '../'
 }
+
+const newsCards = [
+    {
+        thumbnail: news1,
+        alt: "ダミー画像",
+        date: "2023/09/30",
+        title: "ダミータイトル",
+        excerpt: "ダミーテキストダミーテキストダミーテキストダミーテキストダミーテキスト",
+    },
+    {
+        thumbnail: news2,
+        alt: "ダミー画像",
+        date: "2023/09/30",
+        title: "ダミータイトル",
+        excerpt: "ダミーテキストダミーテキストダミーテキストダミーテキストダミーテキスト",
+    },
+    {
+        thumbnail: news3,
+        alt: "ダミー画像",
+        date: "2023/09/30",
+        title: "ダミータイトル",
+        excerpt: "ダミーテキストダミーテキストダミーテキストダミーテキストダミーテキスト",
+    }
+];
 ---
 <Layout title={metas.title} description={metas.discription}, dir={metas.dir}, path={metas.path}>
     <section class="l-second-page l-bg-white">
         <div class="l-container">
             <PageTitle text="お知らせ" />
-            <NewsCard thumbnail={news1.src} alt="ダミー画像" date="2023/09/30" title="ダミータイトル" excerpt="ダミーテキストダミーテキストダミーテキストダミーテキストダミーテキスト" />
-            <NewsCard thumbnail={news2.src} alt="ダミー画像" date="2023/09/30" title="ダミータイトル" excerpt="ダミーテキストダミーテキストダミーテキストダミーテキストダミーテキスト" />
-            <NewsCard thumbnail={news3.src} alt="ダミー画像" date="2023/09/30" title="ダミータイトル" excerpt="ダミーテキストダミーテキストダミーテキストダミーテキストダミーテキスト" />
+            {newsCards.map(card => (
+                <NewsCard {...card} />
+            ))}
         </div>
     </section>
 </Layout>
