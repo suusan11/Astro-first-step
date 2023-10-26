@@ -38,10 +38,10 @@ const newsCards = [
     }
 ];
 ---
-<Layout title={metas.title} description={metas.discription}, dir={metas.dir}, path={metas.path}>
-    <section class="l-second-page l-bg-white">
+<Layout title={metas.title} description={metas.discription}, dir={metas.dir}, path={metas.path}, menuBgBlue={false}>
+    <section class="l-second-page l-bg-blue">
         <div class="l-container">
-            <PageTitle text="お知らせ" />
+            <PageTitle text="お知らせ" isWhite={true} />
             {newsCards.map(card => (
                 <NewsCard {...card} />
             ))}

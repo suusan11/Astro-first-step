@@ -29,9 +29,14 @@
     background-color: var(--color-white);
 }
 
+.l-bg-blue {
+    background-color: var(--color-blue-dark);
+}
+
 .l-second-page {
     // display: grid;
     // place-content: center;
     // height: 100vh;
     padding-top: 4rem;
+    padding-bottom: 2rem;
 }

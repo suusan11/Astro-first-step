@@ -1,12 +1,13 @@
 ---
 interface Props {
 	text: string;
+    isWhite: boolean;
 }
 
-const { text } = Astro.props;
+const { text, isWhite } = Astro.props;
 ---
 
-<h1 class="page-title">{ text }</h1>
+<h1 class:list={['page-title', { white: isWhite }]}>{ text }</h1>
 
 <style lang="scss" is:global>
     @use "../scss/foundation/rem" as r;
@@ -15,6 +16,9 @@ const { text } = Astro.props;
         text-align: left;
         font-size: r.f-rem(32);
         font-weight: 700;
-        padding-bottom: 2rem;
+        padding-bottom: 1rem;
+        &.white {
+			color: var(--color-white);
+		}
     }
 </style>
