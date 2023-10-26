@@ -1,5 +1,6 @@
 ---
 interface Props {
+    href: string,
     thumbnail: string | any,
     alt: string,
 	date: string,
@@ -7,12 +8,12 @@ interface Props {
     excerpt: string
 }
 
-const { thumbnail, alt, date, title, excerpt } = Astro.props;
+const { href, thumbnail, alt, date, title, excerpt } = Astro.props;
 
 import { Image } from 'astro:assets';
 ---
 
-<a href="" class="news__card">
+<a href={href} class="news__card">
     <p class="thumbnail"><Image src={thumbnail} alt={alt} /></p>
     <p class="date">{date}</p>
     <p class="title">{title}</p>

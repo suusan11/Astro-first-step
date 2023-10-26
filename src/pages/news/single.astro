@@ -1,0 +1,65 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const metas = {
+	title: "NEWS",
+	discription: "CMSのページ🍓",
+	dir: '/news/',
+    path: '../'
+}
+
+import news1 from '../../images/news/news01.jpg';
+---
+<Layout title={metas.title} description={metas.discription}, dir={metas.dir}, path={metas.path}, menuBgBlue={false}>
+    <section class="l-second-page l-bg-blue">
+        <div class="l-container">
+            <article class="news">
+                <p class="date">2023/00/00</p>
+                <p class="title">3時のおやつはどうしよか</p>
+                <p class="thumbnail"><img src={news1.src} alt="サンプルの画像" /></p>
+                <div class="content">
+                    <p>もうなんにもこわいことありませんでした。それはたしかになにか黒いつるつるした変なものが鳴りました。天の川の形はなくなって、ぽかっとともってまたなくなって、そして子供たちのために、カムパネルラのために祈ってくれました。なんとも言えずかなしくなって、まもなく、頬をぴくぴくしながら返事をしなかったのです。さがすと証拠もぞくぞく出ているのが見えるのでした。</p>
+                </div>
+            </article>
+        </div>
+    </section>
+</Layout>
+
+<style lang="scss">
+    @use "../../scss/foundation/rem" as r;
+
+    .news {
+        display: block;
+        background-color: var(--color-white);
+        border: 2px solid var(--color-black);
+        border-radius: 10px;
+        text-align: left;
+        padding: 2rem 1.5rem;
+        margin: 2rem auto;
+        .date {
+            font-size: r.f-rem(12);
+            line-height: 1;
+        }
+        .title {
+            font-size: r.f-rem(16);
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+        .thumbnail {
+            width: 100%;
+            overflow: hidden;
+            margin-bottom: 2rem;
+            img {
+                aspect-ratio: 16/9;
+            }
+        }
+        .content {
+            p {
+                font-size: r.f-rem(16);
+                font-weight: 300;
+                line-height: 1.4;
+                text-align: justify;
+            }
+        }
+    }
+</style>
