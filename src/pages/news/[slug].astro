@@ -2,23 +2,40 @@
 import Layout from '../../layouts/Layout.astro';
 
 const metas = {
-	title: "NEWS",
 	discription: "CMSのページ🍓",
 	dir: '/news/',
     path: '../'
 }
 
-import news1 from '../../images/news/news01.jpg';
+const { slug } = Astro.params;
+const res = await fetch(`${import.meta.env.PUBLIC_API_URL}posts?_embed&slug=${slug}`);
+const [post] = await res.json();
+const renderedContent = post.content.rendered;
+const date_data = new Date(post.date);
+const year = date_data.getFullYear();
+const month = date_data.getMonth() + 1;
+const day = date_data.getDate();
+const date = `${year}/${month}/${day}`;
+
+export async function getStaticPaths() {
+    const data = await fetch(`${import.meta.env.PUBLIC_API_URL}posts`);
+    const posts = await data.json();
+
+    return posts.map((post:any) => ({
+        params: { slug: post.slug },
+        props: { post: post },
+    }));
+}
 ---
-<Layout title={metas.title} description={metas.discription}, dir={metas.dir}, path={metas.path}, menuBgBlue={false}>
+<Layout title={post.title.rendered} description={metas.discription}, dir={metas.dir}, path={metas.path}, menuBgBlue={false}>
     <section class="l-second-page l-bg-blue">
         <div class="l-container">
             <article class="news">
-                <p class="date">2023/00/00</p>
-                <p class="title">3時のおやつはどうしよか</p>
-                <p class="thumbnail"><img src={news1.src} alt="サンプルの画像" /></p>
+                <p class="date" set:html={date} />
+                <p class="title" set:html={post.title.rendered} />
+                <p class="thumbnail"><img src={post._embedded['wp:featuredmedia']['0'].source_url} alt="サンプルの画像" /></p>
                 <div class="content">
-                    <p>もうなんにもこわいことありませんでした。それはたしかになにか黒いつるつるした変なものが鳴りました。天の川の形はなくなって、ぽかっとともってまたなくなって、そして子供たちのために、カムパネルラのために祈ってくれました。なんとも言えずかなしくなって、まもなく、頬をぴくぴくしながら返事をしなかったのです。さがすと証拠もぞくぞく出ているのが見えるのでした。</p>
+                    <Fragment set:html={renderedContent} />
                 </div>
             </article>
         </div>

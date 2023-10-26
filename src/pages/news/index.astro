@@ -40,9 +40,17 @@ const newsCards = [
         excerpt: "ダミーテキストダミーテキストダミーテキストダミーテキストダミーテキスト",
     }
 ];
+
+const res = await fetch(`${import.meta.env.PUBLIC_API_URL}posts`);
+const posts = await res.json();
 ---
 <Layout title={metas.title} description={metas.discription}, dir={metas.dir}, path={metas.path}, menuBgBlue={false}>
     <section class="l-second-page l-bg-blue">
+        {
+            posts.map((post:any) => (
+                <p><a href={`/news/${post.slug}`} set:html={post.title.rendered} /></p>
+            ))
+        }
         <div class="l-container">
             <PageTitle text="お知らせ" isWhite={true} />
             {newsCards.map(card => (
