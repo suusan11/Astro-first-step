@@ -7,6 +7,7 @@ const metas = {
     path: '../'
 }
 
+// [slug].astro の [slug]に、WPで設定した記事のスラッグに対応させる
 const { slug } = Astro.params;
 const res = await fetch(`${import.meta.env.PUBLIC_API_URL}posts?_embed&slug=${slug}`);
 const [post] = await res.json();
@@ -22,7 +23,7 @@ export async function getStaticPaths() {
     const posts = await data.json();
 
     return posts.map((post:any) => ({
-        params: { slug: post.slug },
+        params: { slug: decodeURI(post.slug) },
         props: { post: post },
     }));
 }
@@ -33,7 +34,7 @@ export async function getStaticPaths() {
             <article class="news">
                 <p class="date" set:html={date} />
                 <p class="title" set:html={post.title.rendered} />
-                <p class="thumbnail"><img src={post._embedded['wp:featuredmedia']['0'].source_url} alt="サンプルの画像" /></p>
+                <p class="thumbnail"><img src={post.thumbnail.url} alt={post.title} /></p>
                 <div class="content">
                     <Fragment set:html={renderedContent} />
                 </div>

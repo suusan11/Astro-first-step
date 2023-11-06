@@ -14,10 +14,10 @@ import { Image } from 'astro:assets';
 ---
 
 <a href={href} class="news__card">
-    <p class="thumbnail"><Image src={thumbnail} alt={alt} /></p>
-    <p class="date">{date}</p>
-    <p class="title">{title}</p>
-    <p class="excerpt">{excerpt}</p>
+    <p class="thumbnail"><img src={thumbnail} alt={alt} /></p>
+    <p class="date" set:html={date} />
+    <p class="title" set:html={title} />
+    <Fragment set:html={excerpt} />
 </a>
 
 <style lang="scss">
