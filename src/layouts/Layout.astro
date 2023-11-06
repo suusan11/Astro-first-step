@@ -18,9 +18,10 @@ interface Props {
 	description: string,
 	dir: string,
 	path: string,
+	menuBgBlue: boolean,
 }
 
-const { title, description, dir, path } = Astro.props;
+const { title, description, dir, path, menuBgBlue } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -52,11 +53,22 @@ const { title, description, dir, path } = Astro.props;
 		<div class="main__wrapper">
 			<header>
 				<div class="global__menu">
-					<div id="js-open-toggle" class="open__toggle">
-						<span class="border"></span>
-						<span class="border"></span>
-						<span class="border"></span>
-					</div>
+					{
+						menuBgBlue ?
+						(
+							<div id="js-open-toggle" class="open__toggle">
+								<span class="border"></span>
+								<span class="border"></span>
+								<span class="border"></span>
+							</div>
+						) : (
+							<div id="js-open-toggle" class="open__toggle is__white">
+								<span class="border"></span>
+								<span class="border"></span>
+								<span class="border"></span>
+							</div>
+						)
+					}
 					<div class="menu__container">
 						<div class="menu__wrap">
 							<div id="js-close-toggle" class="close__toggle">
@@ -66,8 +78,8 @@ const { title, description, dir, path } = Astro.props;
 							<nav class="inner">
 								<ul>
 									<li><a href="/">home</a></li>
-									<li><a href=`${path}page-a`>page a</a></li>
-									<li><a href=`${path}page-b`>page b</a></li>
+									<li><a href=`${path}news`>news</a></li>
+									<li><a href=`${path}page-b`>contact</a></li>
 								</ul>
 							</nav>
 						</div>
@@ -111,6 +123,9 @@ const { title, description, dir, path } = Astro.props;
 			background-color: var(--color-blue-dark);
 			border-radius: 50%;
 			cursor: pointer;
+			&.is__white {
+				background-color: var(--color-white);
+			}
 			.border {
 				display: inline-block;
 				position: absolute;

@@ -1,0 +1,70 @@
+---
+interface Props {
+    href: string,
+    thumbnail: string | any,
+    alt: string,
+	date: string,
+	title: string,
+    excerpt: string
+}
+
+const { href, thumbnail, alt, date, title, excerpt } = Astro.props;
+
+import { Image } from 'astro:assets';
+---
+
+<a href={href} class="news__card">
+    <p class="thumbnail"><img src={thumbnail} alt={alt} /></p>
+    <p class="date" set:html={date} />
+    <p class="title" set:html={title} />
+    <Fragment set:html={excerpt} />
+</a>
+
+<style lang="scss">
+    @use "../scss/foundation/rem" as r;
+
+    .news__card {
+        display: block;
+        background-color: var(--color-white);
+        border: 2px solid var(--color-black);
+        border-radius: 10px;
+        text-align: left;
+        padding: 2rem 1.5rem;
+        margin-bottom: 1rem;
+        // padding-bottom: 3rem;
+        .thumbnail {
+            width: 100%;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            img {
+                aspect-ratio: 16/9;
+                transform: scale(1);
+                transition: transform 0.8s cubic-bezier(.76,0,.24,1);
+            }
+        }
+        .date {
+            font-size: r.f-rem(12);
+            line-height: 1;
+        }
+        .title {
+            font-size: r.f-rem(16);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        .excerpt {
+            font-size: r.f-rem(16);
+            font-weight: 300;
+            line-height: 1.4;
+            &::after {
+                content: '...';
+                display: inline-block;
+                font-size: r.f-rem(16);
+            }
+        }
+        @media (any-hover: hover) {
+            &:hover .thumbnail img {
+                transform: scale(1.2);
+            }
+        }
+    }
+</style>

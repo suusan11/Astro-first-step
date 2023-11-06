@@ -1,0 +1,82 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const metas = {
+	discription: "CMSのページ🍓",
+	dir: '/news/',
+    path: '../'
+}
+
+// [slug].astro の [slug]に、WPで設定した記事のスラッグに対応させる
+const { slug } = Astro.params;
+const res = await fetch(`${import.meta.env.PUBLIC_API_URL}posts?_embed&slug=${slug}`);
+const [post] = await res.json();
+const renderedContent = post.content.rendered;
+const date_data = new Date(post.date);
+const year = date_data.getFullYear();
+const month = date_data.getMonth() + 1;
+const day = date_data.getDate();
+const date = `${year}/${month}/${day}`;
+
+export async function getStaticPaths() {
+    const data = await fetch(`${import.meta.env.PUBLIC_API_URL}posts`);
+    const posts = await data.json();
+
+    return posts.map((post:any) => ({
+        params: { slug: decodeURI(post.slug) },
+        props: { post: post },
+    }));
+}
+---
+<Layout title={post.title.rendered} description={metas.discription}, dir={metas.dir}, path={metas.path}, menuBgBlue={false}>
+    <section class="l-second-page l-bg-blue">
+        <div class="l-container">
+            <article class="news">
+                <p class="date" set:html={date} />
+                <p class="title" set:html={post.title.rendered} />
+                <p class="thumbnail"><img src={post.thumbnail.url} alt={post.title} /></p>
+                <div class="content">
+                    <Fragment set:html={renderedContent} />
+                </div>
+            </article>
+        </div>
+    </section>
+</Layout>
+
+<style lang="scss">
+    @use "../../scss/foundation/rem" as r;
+
+    .news {
+        display: block;
+        background-color: var(--color-white);
+        border: 2px solid var(--color-black);
+        border-radius: 10px;
+        text-align: left;
+        padding: 2rem 1.5rem;
+        margin: 2rem auto;
+        .date {
+            font-size: r.f-rem(12);
+            line-height: 1;
+        }
+        .title {
+            font-size: r.f-rem(16);
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+        .thumbnail {
+            width: 100%;
+            overflow: hidden;
+            margin-bottom: 2rem;
+            img {
+                aspect-ratio: 16/9;
+            }
+        }
+        .content {
+            p {
+                font-size: r.f-rem(16);
+                font-weight: 300;
+                text-align: justify;
+            }
+        }
+    }
+</style>

@@ -1,12 +1,15 @@
 ---
 interface Props {
-	href: string;
+	href: string,
+	text: string,
+	bgColor: string,
+	isEng: boolean,
 }
 
-const { href } = Astro.props;
+const { href, text, isEng } = Astro.props;
 ---
 
-<a href={href} class="button js-text-split">Get started</a>
+<a href={href} class:list={['button js-text-split', Astro.props.bgColor, { font_en: isEng }]}>{text}</a>
 
 <style lang="scss" is:global>
 	@use "../scss/foundation/rem" as r;
@@ -15,13 +18,17 @@ const { href } = Astro.props;
 		width: 80%;
 		border-radius: 30px;
 		border: 2px solid var(--color-black);
-		background-color: var(--color-orange);
-		font-family: var(--font-en);
 		font-size: r.f-rem(20);
 		font-weight: 500;
 		text-align: center;
 		padding: 0.5rem 0;
 		margin: 0 auto;
+		&.is__orange {
+			background-color: var(--color-orange);
+		}
+		&.is__purple {
+			background-color: var(--color-purple);
+		}
 		@media (any-hover: hover) {
 			&:hover {
 				.button__char {
