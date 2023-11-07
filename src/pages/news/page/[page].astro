@@ -1,0 +1,70 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import PageTitle from '../../../components/PageTitle.astro';
+import NewsCard from '../../../components/NewsCard.astro';
+
+const metas = {
+	title: "NEWS",
+	discription: "CMSのページ🍓",
+	dir: '/news',
+    path: '../'
+}
+
+const { page } = Astro.params;
+const { posts, total } = Astro.props;
+
+// Formatted Date
+const dateFormatt = (defaultDate) => {
+    const date_data = new Date(defaultDate);
+    const year = date_data.getFullYear();
+    const month = date_data.getMonth() + 1;
+    const day = date_data.getDate();
+    const date = `${year}/${month}/${day}`;
+    return date;
+}
+// Omitted Content
+const omittedContent = (string) => {
+    // 最大値
+    const MAX_LENGTH = 50;
+    // タグ除去
+    const pureString = string.replace(/(<([^>]+)>)/gi, '');
+
+    if (pureString.length > MAX_LENGTH) {
+        return pureString.substr(0, MAX_LENGTH) + '...';
+    }
+    return pureString;
+}
+
+export async function getStaticPaths() {
+    const perPage = 10;
+    const result : any[] = []; // 返却するやつ
+
+    // 総ページ数を取得
+    const res = await fetch(`${import.meta.env.PUBLIC_API_URL}posts?per_page=${perPage}`);
+    const total = res.headers.get('x-wp-totalpages');
+
+    // 2ページ目以降があれば処理
+    if(Number(total) > 1) {
+        for(let i = 2; i <= Number(total); i++) {
+            const res = await fetch(`${import.meta.env.PUBLIC_API_URL}posts?per_page=${perPage}&page=${i}`);
+            const posts = await res.json();
+            result.push({
+                params: { page: i },
+                props: { posts: posts, total: total }
+            });
+        }
+    }
+    return result;
+}
+---
+
+<Layout title={metas.title} description={metas.discription}, dir={metas.dir}, path={metas.path}, menuBgBlue={false}>
+    <section class="l-second-page l-bg-blue">
+        <div class="l-container">
+            <PageTitle text="お知らせ" isWhite={true} />
+            {posts.map((post:any) => (
+                <NewsCard href={`/news/${post.slug}`} thumbnail={post.thumbnail.url} alt={post.title.rendered} date={dateFormatt(post.date)} title={post.title.rendered} excerpt={omittedContent(post.content.rendered)}/>
+            ))}
+        </div>
+    </section>
+</Layout>
