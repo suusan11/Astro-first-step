@@ -14,7 +14,7 @@ const metas = {
     path: '../'
 }
 
-const res = await fetch(`${import.meta.env.PUBLIC_API_URL}posts?_embed`);
+const res = await fetch(`${import.meta.env.PUBLIC_API_URL}posts?_embed&per_page=10`); //per_pageで表示数を設定
 const posts = await res.json();
 // Formatted Date
 const dateFormatt = (defaultDate) => {
