@@ -7,26 +7,37 @@ const metas = {
     path: '../'
 }
 
-// [slug].astro の [slug]に、WPで設定した記事のスラッグに対応させる
+export async function getStaticPaths() {
+    // 最初の100件取得
+    const res = await fetch(`${import.meta.env.PUBLIC_API_URL}posts?per_page=100`);
+    let posts = await res.json();
+    const total = Number(res.headers.get('x-wp-totalpages'));
+
+    // 101件目以降があれば取得
+    if(total > 1) {
+        for(let i = 2; i <= total; i++) {
+        const res = await fetch(`${import.meta.env.PUBLIC_API_URL}posts?per_page=100&page=${i}`);
+        const morePosts = await res.json();
+        posts = posts.concat(morePosts);
+        }
+    }
+    return posts.map((post:any)=>{
+        return {
+        params: { slug: post.slug },
+        props: { post: post },
+        }
+    });
+}
+// 各ページで使うデータ
 const { slug } = Astro.params;
-const res = await fetch(`${import.meta.env.PUBLIC_API_URL}posts?_embed&slug=${slug}`);
-const [post] = await res.json();
+const { post } = Astro.props;
+
 const renderedContent = post.content.rendered;
 const date_data = new Date(post.date);
 const year = date_data.getFullYear();
 const month = date_data.getMonth() + 1;
 const day = date_data.getDate();
 const date = `${year}/${month}/${day}`;
-
-export async function getStaticPaths() {
-    const data = await fetch(`${import.meta.env.PUBLIC_API_URL}posts`);
-    const posts = await data.json();
-
-    return posts.map((post:any) => ({
-        params: { slug: decodeURI(post.slug) },
-        props: { post: post },
-    }));
-}
 ---
 <Layout title={post.title.rendered} description={metas.discription}, dir={metas.dir}, path={metas.path}, menuBgBlue={false}>
     <section class="l-second-page l-bg-blue">

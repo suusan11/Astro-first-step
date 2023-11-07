@@ -37,7 +37,7 @@ const omittedContent = (string) => {
 
 export async function getStaticPaths() {
     const perPage = 10;
-    const result : any[] = []; // 返却するやつ
+    const result : any[] = [];
 
     // 総ページ数を取得
     const res = await fetch(`${import.meta.env.PUBLIC_API_URL}posts?per_page=${perPage}`);
