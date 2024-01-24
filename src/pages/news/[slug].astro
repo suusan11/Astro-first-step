@@ -28,24 +28,41 @@ export async function getStaticPaths() {
         }
     });
 }
+
+interface Props {
+    post: {
+        content: {
+            rendered: string;
+        },
+        date: string,
+        title: {
+            rendered: string;
+        },
+        thumbnail: {
+            url: string;
+        }
+    }
+}
+
 // 各ページで使うデータ
 const { slug } = Astro.params;
 const { post } = Astro.props;
-
+const renderedTitle = post.title.rendered;
 const renderedContent = post.content.rendered;
+const thumbnailUrl = post.thumbnail.url;
 const date_data = new Date(post.date);
 const year = date_data.getFullYear();
 const month = date_data.getMonth() + 1;
 const day = date_data.getDate();
 const date = `${year}/${month}/${day}`;
 ---
-<Layout title={post.title.rendered} description={metas.discription}, dir={metas.dir}, path={metas.path}, menuBgBlue={false}>
+<Layout title={renderedTitle} description={metas.discription}, dir={metas.dir}, path={metas.path}, menuBgBlue={false}>
     <section class="l-second-page l-bg-blue">
         <div class="l-container">
             <article class="news">
                 <p class="date" set:html={date} />
-                <p class="title" set:html={post.title.rendered} />
-                <p class="thumbnail"><img src={post.thumbnail.url} alt={post.title} /></p>
+                <p class="title" set:html={renderedTitle} />
+                <p class="thumbnail"><img src={thumbnailUrl} alt={renderedTitle} /></p>
                 <div class="content">
                     <Fragment set:html={renderedContent} />
                 </div>
