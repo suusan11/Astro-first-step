@@ -2,6 +2,7 @@
 import Layout from '../../../layouts/Layout.astro';
 import PageTitle from '../../../components/PageTitle.astro';
 import NewsCard from '../../../components/NewsCard.astro';
+import Pagination from '../../../components/Pagination.astro';
 
 const metas = {
 	title: "NEWS",
@@ -11,7 +12,7 @@ const metas = {
 }
 
 const { page } = Astro.params;
-const { posts, total } = Astro.props;
+const { posts, total, pages } = Astro.props;
 
 // Formatted Date
 const dateFormatt = (defaultDate) => {
@@ -42,7 +43,7 @@ export async function getStaticPaths() {
     // 総ページ数を取得
     const res = await fetch(`${import.meta.env.PUBLIC_API_URL}posts?per_page=${perPage}`);
     const total = res.headers.get('x-wp-totalpages');
-
+    const pages: number[] = Array(+total).fill(null).map((_, i) => i + 1);
     // 2ページ目以降があれば処理
     if(Number(total) > 1) {
         for(let i = 2; i <= Number(total); i++) {
@@ -50,7 +51,7 @@ export async function getStaticPaths() {
             const posts = await res.json();
             result.push({
                 params: { page: i },
-                props: { posts: posts, total: total }
+                props: { posts: posts, total: total, pages: pages }
             });
         }
     }
@@ -65,6 +66,7 @@ export async function getStaticPaths() {
             {posts.map((post:any) => (
                 <NewsCard href={`/news/${post.slug}`} thumbnail={post.thumbnail.url} alt={post.title.rendered} date={dateFormatt(post.date)} title={post.title.rendered} excerpt={omittedContent(post.content.rendered)}/>
             ))}
+            <Pagination pages={pages} currentPage={page} parentPage="news" />
         </div>
     </section>
 </Layout>
