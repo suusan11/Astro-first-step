@@ -1,5 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import PrevNext from '../../components/PrevNext.astro';
+import { sortDate } from "../../js/sortDate.js";
 
 const metas = {
 	discription: "CMSのページ🍓",
@@ -7,31 +9,36 @@ const metas = {
     path: '../'
 }
 
-
 export async function getStaticPaths() {
     // 最初の100件取得
     const res = await fetch(`${import.meta.env.PUBLIC_API_URL}posts?per_page=100`);
     let posts = await res.json();
     const total = Number(res.headers.get('x-wp-totalpages'));
+    const postsLength = posts.length;
 
     // 101件目以降があれば取得
     if(total > 1) {
         for(let i = 2; i <= total; i++) {
-        const res = await fetch(`${import.meta.env.PUBLIC_API_URL}posts?per_page=100&page=${i}`);
-        const morePosts = await res.json();
-        posts = posts.concat(morePosts);
+            const res = await fetch(`${import.meta.env.PUBLIC_API_URL}posts?per_page=100&page=${i}`);
+            const morePosts = await res.json();
+            posts = posts.concat(morePosts);
         }
     }
-    return posts.map((post:any)=>{
+    return posts.sort(sortDate).map((post:any, i)=>{
         return {
             params: { slug: decodeURI(post.slug) },
-            props: { post: post },
+            props: {
+                post: post,
+                prevPost: i === 0 ? { slug: "" } : posts[i - 1],
+                nextPost: i + 1 === postsLength ? { slug: "" } : posts[i + 1],
+            },
         }
     });
 }
 
 interface Props {
     post: {
+        slug: string,
         content: {
             rendered: string;
         },
@@ -43,11 +50,17 @@ interface Props {
             url: string;
         }
     }
+    prevPost: {
+        slug: string,
+    },
+    nextPost: {
+        slug: string,
+    },
 }
 
 // 各ページで使うデータ
 const { slug } = Astro.params;
-const { post } = Astro.props;
+const { post, prevPost, nextPost } = Astro.props;
 const renderedTitle = post.title.rendered;
 const renderedContent = post.content.rendered;
 const thumbnailUrl = post.thumbnail.url;
@@ -68,6 +81,11 @@ const date = `${year}/${month}/${day}`;
                     <Fragment set:html={renderedContent} />
                 </div>
             </article>
+            <PrevNext
+                prevPostSlug={prevPost.slug},
+                nextPostSlug={nextPost.slug},
+                parentPage="news"
+            />
         </div>
     </section>
 </Layout>
