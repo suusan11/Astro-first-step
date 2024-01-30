@@ -7,6 +7,7 @@ const metas = {
     path: '../'
 }
 
+
 export async function getStaticPaths() {
     // 最初の100件取得
     const res = await fetch(`${import.meta.env.PUBLIC_API_URL}posts?per_page=100`);
@@ -23,8 +24,8 @@ export async function getStaticPaths() {
     }
     return posts.map((post:any)=>{
         return {
-        params: { slug: post.slug },
-        props: { post: post },
+            params: { slug: decodeURI(post.slug) },
+            props: { post: post },
         }
     });
 }
