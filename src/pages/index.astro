@@ -13,10 +13,12 @@ import '../scss/pages/pg-advantage.scss'
 import '../scss/pages/pg-recommend.scss'
 import '../scss/pages/pg-news.scss'
 import '../scss/pages/pg-start.scss'
+import '../scss/pages/pg-pokemon.scss'
 
 import { Image } from 'astro:assets';
 import heroImage from '../images/astronaut.png';
 import toTop from '../images/totop.svg';
+import samplePoke from '../images/pokemon/ball.png';
 
 const featuresCard = [
 	{
@@ -53,6 +55,7 @@ const metas = {
 	dir: '',
 	path: '/'
 }
+
 ---
 
 <Layout title={metas.title} description={metas.discription}, dir={metas.dir}, path={metas.path}, menuBgBlue={true}>
@@ -112,6 +115,18 @@ const metas = {
 				</div>
 				<CommonButton href="/news" text="一覧へ" bgColor="is__purple" isEng={false} />
 			</div>
+		</section>
+		<section class="pg-pokemon l-bg-white">
+			<div class="l-container">
+				<SectionTitle text="CPもACFも使えるよ" isWhite={false} />
+				<ul class="poke__wrap l-inner__flex">
+					<li><a href=""><Image src={samplePoke} alt="sample" /><span class="name">ポケモンの名前</span></a></li>
+					<li><a href=""><Image src={samplePoke} alt="sample" /><span class="name">ポケモンの名前</span></a></li>
+					<li><a href=""><Image src={samplePoke} alt="sample" /><span class="name">ポケモンの名前</span></a></li>
+					<li><a href=""><Image src={samplePoke} alt="sample" /><span class="name">ポケモンの名前</span></a></li>
+				</ul>
+			</div>
+			<CommonButton href="/pokemon" text="一覧へ" bgColor="is__purple" isEng={false} />
 		</section>
 		<section class="pg-cases l-bg-white">
 			<div class="l-container">

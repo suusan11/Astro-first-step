@@ -1,0 +1,26 @@
+@use "../../scss/foundation/rem" as r;
+
+.pg-pokemon {
+    padding-bottom: 2rem;
+    .poke__wrap {
+        li {
+            width: 48%;
+            margin-bottom: 1rem;
+            img {
+                width: 100%;
+                aspect-ratio: 1/1;
+                margin-bottom: 0.5rem;
+            }
+            .name {
+                display: block;
+                font-size: r.f-rem(16);
+                text-align: center;
+            }
+            @media (any-hover: hover) {
+                &:hover {
+                    opacity: 0.8;
+                }
+            }
+        }
+    }
+}
