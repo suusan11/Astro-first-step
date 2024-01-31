@@ -1,0 +1,74 @@
+---
+interface Props {
+    href: string,
+    thumbnail: string | any,
+    alt: string,
+	name: string,
+    cats: [],
+}
+
+const { href, thumbnail, alt, name, cats } = Astro.props;
+
+import { Image } from 'astro:assets';
+---
+
+<a href={href} class="character__card">
+    <p class="thumbnail"><img src={thumbnail} alt={alt} /></p>
+    <p class="title" set:html={name} />
+    <div class="l-inner__flex flex-start">
+        <p class="type">タイプ：</p>
+        <ul class="l-inner__flex flex-start">
+            {cats.map((cat : any) => (
+                <li class="list">{cat}</li>
+            ))}
+        </ul>
+    </div>
+</a>
+
+<style lang="scss">
+    @use "../scss/foundation/rem" as r;
+
+    .character__card {
+        display: block;
+        background-color: var(--color-white);
+        border: 2px solid var(--color-black);
+        border-radius: 10px;
+        text-align: left;
+        padding: 2rem 1.5rem;
+        margin-bottom: 1rem;
+        .thumbnail {
+            width: 100%;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            img {
+                aspect-ratio: 1/1;
+                transform: scale(1);
+                transition: transform 0.8s cubic-bezier(.76,0,.24,1);
+            }
+        }
+        .title {
+            font-size: r.f-rem(16);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        .type {
+            font-size: r.f-rem(14);
+        }
+        .list {
+            font-size: r.f-rem(14);
+            &:not(:last-child) {
+                &::after {
+                    content: ',';
+                    display: inline-block;
+                    font-size: r.f-rem(14);
+                    margin-right: 0.5rem;
+                }
+            }
+        }
+        @media (any-hover: hover) {
+            &:hover .thumbnail img {
+                transform: scale(1.2);
+            }
+        }
+    }
+</style>
