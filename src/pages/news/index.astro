@@ -4,10 +4,6 @@ import PageTitle from '../../components/PageTitle.astro';
 import NewsCard from '../../components/NewsCard.astro';
 import Pagination from '../../components/Pagination.astro';
 
-// import news1 from '../../images/news/news01.jpg';
-// import news2 from '../../images/news/news02.jpg';
-// import news3 from '../../images/news/news03.jpg';
-
 const metas = {
 	title: "NEWS",
 	discription: "CMSのページ🍓",
@@ -43,32 +39,6 @@ const omittedContent = (string) => {
     }
     return pureString;
 }
-// const newsCards = [
-//     {
-//         href: "news/single",
-//         thumbnail: news1,
-//         alt: "ダミー画像",
-//         date: "2023/09/30",
-//         title: "ダミータイトル",
-//         excerpt: "ダミーテキストダミーテキストダミーテキストダミーテキストダミーテキスト",
-//     },
-//     {
-//         href: "news/single",
-//         thumbnail: news2,
-//         alt: "ダミー画像",
-//         date: "2023/09/30",
-//         title: "ダミータイトル",
-//         excerpt: "ダミーテキストダミーテキストダミーテキストダミーテキストダミーテキスト",
-//     },
-//     {
-//         href: "news/single",
-//         thumbnail: news3,
-//         alt: "ダミー画像",
-//         date: "2023/09/30",
-//         title: "ダミータイトル",
-//         excerpt: "ダミーテキストダミーテキストダミーテキストダミーテキストダミーテキスト",
-//     }
-// ];
 ---
 <Layout title={metas.title} description={metas.discription}, dir={metas.dir}, path={metas.path}, menuBgBlue={false}>
     <section class="l-second-page l-bg-blue">
