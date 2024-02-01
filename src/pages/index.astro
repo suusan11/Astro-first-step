@@ -63,6 +63,9 @@ const dateFormatt = (defaultDate) => {
     return date;
 }
 
+//pokemon
+const res2 = await fetch(`${import.meta.env.PUBLIC_API_URL}character?_embed&acf_format=standard&per_page=4`); //per_pageで表示数を設定
+const pokes = await res2.json();
 
 const metas = {
 	title: "Astro is the one.",
@@ -133,10 +136,9 @@ const metas = {
 			<div class="l-container">
 				<SectionTitle text="CPもACFも使えるよ" isWhite={false} />
 				<ul class="poke__wrap l-inner__flex">
-					<li><a href=""><Image src={samplePoke} alt="sample" /><span class="name">ポケモンの名前</span></a></li>
-					<li><a href=""><Image src={samplePoke} alt="sample" /><span class="name">ポケモンの名前</span></a></li>
-					<li><a href=""><Image src={samplePoke} alt="sample" /><span class="name">ポケモンの名前</span></a></li>
-					<li><a href=""><Image src={samplePoke} alt="sample" /><span class="name">ポケモンの名前</span></a></li>
+					{pokes.map((poke:any) => (
+						<li><a href={`/pokemon/${poke.slug}`}><img src={poke.thumbnail.url} alt={poke.acf.name}><span class="name">{poke.acf.name}</span></a></li>
+					))}
 				</ul>
 			</div>
 			<CommonButton href="/pokemon" text="一覧へ" bgColor="is__purple" isEng={false} />
