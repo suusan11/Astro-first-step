@@ -6,6 +6,10 @@
         li {
             margin-bottom: 1rem;
             cursor: pointer;
+            a {
+                display: block;
+                cursor: pointer;
+            }
             span {
                 display: block;
             }

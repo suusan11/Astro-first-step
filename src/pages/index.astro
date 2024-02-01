@@ -6,6 +6,7 @@ import SectionTitle from '../components/SectionTitle.astro';
 import Card from '../components/Card.astro';
 import CasesSwiper from '../components/CasesSwiper.astro';
 import CountButton from '../components/CountButton.astro';
+import SubTitle from '../components/SubTitle.astro';
 
 import '../scss/pages/pg-hero.scss'
 import '../scss/pages/pg-features.scss'
@@ -49,13 +50,26 @@ const advantageCard = [
 	}
 ]
 
+//news
+const res = await fetch(`${import.meta.env.PUBLIC_API_URL}posts?_embed&per_page=5`); //per_pageで表示数を設定
+const news = await res.json();
+// Formatted Date
+const dateFormatt = (defaultDate) => {
+    const date_data = new Date(defaultDate);
+    const year = date_data.getFullYear();
+    const month = date_data.getMonth() + 1;
+    const day = date_data.getDate();
+    const date = `${year}/${month}/${day}`;
+    return date;
+}
+
+
 const metas = {
 	title: "Astro is the one.",
 	discription: "Astroの魅力を伝えるサイトです。",
 	dir: '',
 	path: '/'
 }
-
 ---
 
 <Layout title={metas.title} description={metas.discription}, dir={metas.dir}, path={metas.path}, menuBgBlue={true}>
@@ -106,13 +120,12 @@ const metas = {
 		<section class="pg-news l-bg-white">
 			<div class="l-container">
 				<SectionTitle text="CMSも使えるよ" isWhite={false} />
-				<div class="news__wrap">
-					<li><a href=""><span class="date">2023/09/30</span><span class="title">ダミーテキストダミーテキストダミーテキスト</span></a></li>
-					<li><a href=""><span class="date">2023/09/30</span><span class="title">ダミーテキストダミーテキストダミーテキスト</span></a></li>
-					<li><a href=""><span class="date">2023/09/30</span><span class="title">ダミーテキストダミーテキストダミーテキスト</span></a></li>
-					<li><a href=""><span class="date">2023/09/30</span><span class="title">ダミーテキストダミーテキストダミーテキスト</span></a></li>
-					<li><a href=""><span class="date">2023/09/30</span><span class="title">ダミーテキストダミーテキストダミーテキスト</span></a></li>
-				</div>
+				<SubTitle text="最新ニュース5件" />
+				<ul class="news__wrap">
+					{news.map((news:any) => (
+						<li><a href={`/news/${news.slug}`}><span class="date">{dateFormatt(news.date)}</span><span class="title">{news.title.rendered}</span></a></li>
+					))}
+				</ul>
 				<CommonButton href="/news" text="一覧へ" bgColor="is__purple" isEng={false} />
 			</div>
 		</section>
