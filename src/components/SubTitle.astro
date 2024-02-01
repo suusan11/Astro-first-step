@@ -1,0 +1,25 @@
+---
+interface Props {
+	text: string;
+}
+
+const { text } = Astro.props;
+---
+
+<h3 class:list={'sub__title'}>{text}</h3>
+
+<style lang="scss">
+	@use "../scss/foundation/rem" as r;
+	.sub__title {
+		font-size: r.f-rem(20);
+		font-weight: 700;
+		line-height: 1.2;
+		text-align: left;
+        border-left: 5px solid var(--color-black);
+        padding-left: 0.5rem;
+		margin-bottom: 1rem;
+		&.white {
+			color: var(--color-white);
+		}
+	}
+</style>
