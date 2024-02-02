@@ -24,9 +24,6 @@ export async function getStaticPaths() {
             posts = posts.concat(morePosts);
         }
     }
-    posts.map(post => {
-        console.log(post);
-    })
     return posts.sort(sortDate).map((post:any, i)=>{
         return {
             params: { slug: decodeURI(post.slug) },
@@ -57,7 +54,7 @@ interface Props {
     },
     nextPost: {
         slug: string,
-    },
+    }
 }
 
 // 各ページで使うデータ
@@ -68,12 +65,15 @@ const characterCategory = post.acf.category;
 const characterCharacteristic = post.acf.characteristic;
 const characterOfficialUrl = post.acf.official_url;
 const thumbnailUrl = post.thumbnail.url;
-const getTermInfo = async (termId) => {
+
+const getTermData = async (termId) => {
     const res = await fetch(`${import.meta.env.PUBLIC_API_URL}character_cat/${termId}`);
     const termData = await res.json();
-    return termData.name || '未分類'; // ターム名があれば取得、なければ '未分類'
+    return {
+        name: termData.name,
+        slug: termData.slug,
+    };
 };
-
 
 ---
 <Layout title={characterName} description={metas.discription}, dir={metas.dir}, path={metas.path}, menuBgBlue={false}>
@@ -88,7 +88,12 @@ const getTermInfo = async (termId) => {
                     <dt>特性</dt>
                     <dd>{characterCharacteristic}</dd>
                     <dt>タイプ</dt>
-                    <dd>{post.character_cat.map((catId:any) => <span class="type">{getTermInfo(catId)}</span>)}</dd>
+                    <dd>
+                        {post.character_cat.map(async (catId: any) => {
+                            const { name, slug } = await getTermData(catId);
+                            return <a class="type" href={`/pokemon/category/${slug}`}>{name}</a>;
+                        })}
+                    </dd>
                 </dl>
                 <a class="official__url" href={characterOfficialUrl}>{characterName}の公式ページへ</a>
             </article>
