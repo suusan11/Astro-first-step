@@ -1,0 +1,51 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageTitle from '../../components/PageTitle.astro';
+import FormButton from '../../components/FormButton.astro';
+
+const metas = {
+	title: "CONFIRM",
+	discription: "問い合わせ【確認】のページ🍓",
+	dir: '/confirm',
+    path: '../'
+}
+---
+<Layout title={metas.title} description={metas.discription}, dir={metas.dir}, path={metas.path}, menuBgBlue={false}>
+    <section class="l-second-page l-bg-blue">
+        <div class="l-container">
+            <PageTitle text="お問い合わせ【確認】"  isWhite={true} />
+            <form action="" method="POST">
+                <dl>
+                    <dt>メールアドレス</dt>
+                    <dd>
+                        <p class="input__text">会社名が入ります</p>
+                    </dd>
+                    <dt>コメント</dt>
+                    <dd>
+                        <p class="input__text">この文章はダミーです。文字の大きさ、量、字間、行間等を確認するために入れています。</p>
+                    </dd>
+                </dl>
+                <FormButton type="submit" text="内容を確認する"/>
+                <FormButton type="button" text="入力画面に戻る"/>
+            </form>
+        </div>
+    </section>
+</Layout>
+
+<style lang="scss">
+    @use "../../scss/foundation/rem" as r;
+    form {
+        background-color: var(--color-white);
+        border-radius: 10px;
+        padding: 1.8rem 1rem;
+        dl {
+            margin-bottom: 2rem;
+            dd {
+                margin-bottom: 1rem;
+                .input__text {
+                    font-size: r.f-rem(16);
+                }
+            }
+        }
+    }
+</style>
