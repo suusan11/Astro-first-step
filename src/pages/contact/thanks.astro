@@ -1,0 +1,35 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageTitle from '../../components/PageTitle.astro';
+
+const metas = {
+	title: "THANKS",
+	discription: "問い合わせ【完了】のページ🍓",
+	dir: '/thanks',
+    path: '../'
+}
+---
+<Layout title={metas.title} description={metas.discription}, dir={metas.dir}, path={metas.path}, menuBgBlue={false}>
+    <section class="l-second-page l-bg-blue">
+        <div class="l-container">
+            <PageTitle text="お問い合わせ【完了】"  isWhite={true} />
+            <div class="lead__wrap">
+                <h2 class="title">サンキュー！！</h2>
+            </div>
+        </div>
+    </section>
+</Layout>
+
+<style lang="scss">
+    @use "../../scss/foundation/rem" as r;
+    .lead__wrap {
+        background-color: var(--color-white);
+        border-radius: 10px;
+        padding: 1.8rem 1rem;
+        .title {
+            font-size: r.f-rem(20);
+            line-height: 1.4;
+            text-align: center;
+        }
+    }
+</style>

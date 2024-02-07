@@ -6,6 +6,10 @@
         li {
             margin-bottom: 1rem;
             cursor: pointer;
+            a {
+                display: block;
+                cursor: pointer;
+            }
             span {
                 display: block;
             }
@@ -14,6 +18,16 @@
             }
             .title {
                 font-size: r.f-rem(16);
+            }
+            &:not(:last-child) {
+                border-bottom: 1px solid var(--color-black);
+                padding-bottom: 1rem;
+                margin-bottom: 1rem;
+            }
+            @media (any-hover: hover) {
+                &:hover {
+                    opacity: 0.8;
+                }
             }
         }
     }

@@ -1,0 +1,186 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PrevNext from '../../components/PrevNext.astro';
+import { sortDate } from "../../js/sortDate.js";
+
+const metas = {
+	discription: "CMSのページ🍓",
+	dir: '/pokemon/',
+    path: '../'
+}
+
+export async function getStaticPaths() {
+    // 最初の100件取得
+    const res = await fetch(`${import.meta.env.PUBLIC_API_URL}character?per_page=100`);
+    let posts = await res.json();
+    const total = Number(res.headers.get('x-wp-totalpages'));
+    const postsLength = posts.length;
+
+    // 101件目以降があれば取得
+    if(total > 1) {
+        for(let i = 2; i <= total; i++) {
+            const res = await fetch(`${import.meta.env.PUBLIC_API_URL}character?_embed&acf_format=standard?per_page=100&page=${i}`);
+            const morePosts = await res.json();
+            posts = posts.concat(morePosts);
+        }
+    }
+    return posts.sort(sortDate).map((post:any, i)=>{
+        return {
+            params: { slug: decodeURI(post.slug) },
+            props: {
+                post: post,
+                prevPost: i === 0 ? { slug: "" } : posts[i - 1],
+                nextPost: i + 1 === postsLength ? { slug: "" } : posts[i + 1],
+            },
+        }
+    });
+}
+interface Props {
+    post: {
+        slug: string,
+        thumbnail: {
+            url: string;
+        },
+        acf: {
+            name: string,
+            category: string,
+            characteristic: string,
+            official_url: string
+        },
+        character_cat: []
+    }
+    prevPost: {
+        slug: string,
+    },
+    nextPost: {
+        slug: string,
+    }
+}
+
+// 各ページで使うデータ
+const { slug } = Astro.params;
+const { post, prevPost, nextPost } = Astro.props;
+const characterName = post.acf.name;
+const characterCategory = post.acf.category;
+const characterCharacteristic = post.acf.characteristic;
+const characterOfficialUrl = post.acf.official_url;
+const thumbnailUrl = post.thumbnail.url;
+
+const getTermData = async (termId) => {
+    const res = await fetch(`${import.meta.env.PUBLIC_API_URL}character_cat/${termId}`);
+    const termData = await res.json();
+    return {
+        name: termData.name,
+        slug: termData.slug,
+    };
+};
+
+---
+<Layout title={characterName} description={metas.discription}, dir={metas.dir}, path={metas.path}, menuBgBlue={false}>
+    <section class="l-second-page l-bg-blue">
+        <div class="l-container">
+            <article class="character">
+                <p class="thumbnail"><img src={thumbnailUrl} alt={characterName} /></p>
+                <p class="name" set:html={characterName} />
+                <dl class="list">
+                    <dt>分類</dt>
+                    <dd>{characterCategory}</dd>
+                    <dt>特性</dt>
+                    <dd>{characterCharacteristic}</dd>
+                    <dt>タイプ</dt>
+                    <dd>
+                        {post.character_cat.map(async (catId: any) => {
+                            const { name, slug } = await getTermData(catId);
+                            return <a class="type" href={`/pokemon/category/${slug}`}>{name}</a>;
+                        })}
+                    </dd>
+                </dl>
+                <a class="official__url" href={characterOfficialUrl}>{characterName}の公式ページへ</a>
+            </article>
+            <PrevNext
+                prevPostSlug={prevPost.slug},
+                nextPostSlug={nextPost.slug},
+                parentPage="pokemon"
+            />
+        </div>
+    </section>
+</Layout>
+
+<style lang="scss">
+    @use "../../scss/foundation/rem" as r;
+
+    .character {
+        display: block;
+        background-color: var(--color-white);
+        border: 2px solid var(--color-black);
+        border-radius: 10px;
+        text-align: left;
+        padding: 2rem 1.5rem;
+        margin: 2rem auto;
+        .thumbnail {
+            width: 100%;
+            overflow: hidden;
+            margin-bottom: 2rem;
+            img {
+                aspect-ratio: 1/1;
+            }
+        }
+        .name {
+            display: flex;
+            align-items: center;
+            font-size: r.f-rem(20);
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            &::before {
+                content: '';
+                display: inline-block;
+                background: url('../../images/pokemon/ball.png') no-repeat;
+                background-size: contain;
+                background-position: center;
+                width: 20px;
+                height: 20px;
+                margin-right: 0.3rem;
+            }
+        }
+        .list {
+            margin-bottom: 2.5rem;
+            dt {
+                font-size: r.f-rem(14);
+            }
+            dd {
+                font-size: r.f-rem(16);
+                &:not(:last-child) {
+                    border-bottom: 1px solid var(--color-black);
+                    padding-bottom: 0.5rem;
+                    margin-bottom: 1rem;
+                }
+                .type {
+                    cursor: pointer;
+                    display: inline-block;
+                    font-size: r.f-rem(12);
+                    font-weight: bold;
+                    text-align: center;
+                    background-color: var(--color-gray);
+                    padding: 0.2rem 0.5rem;
+                    margin-right: 1rem;
+                }
+            }
+        }
+        .official__url {
+            display: block;
+            width: 100%;
+            border-radius: 30px;
+            background-color: var(--color-orange);
+            color: var(--color-white);
+            font-size: r.f-rem(16);
+            font-weight: bold;
+            text-align: center;
+            padding: 0.5rem;
+            @media (any-hover: hover) {
+                &:hover {
+                    opacity: 0.8;
+                }
+            }
+        }
+    }
+</style>

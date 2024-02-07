@@ -1,5 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import PrevNext from '../../components/PrevNext.astro';
+import { sortDate } from "../../js/sortDate.js";
 
 const metas = {
 	discription: "CMSのページ🍓",
@@ -7,38 +9,83 @@ const metas = {
     path: '../'
 }
 
-// [slug].astro の [slug]に、WPで設定した記事のスラッグに対応させる
+export async function getStaticPaths() {
+    // 最初の100件取得
+    const res = await fetch(`${import.meta.env.PUBLIC_API_URL}posts?per_page=100`);
+    let posts = await res.json();
+    const total = Number(res.headers.get('x-wp-totalpages'));
+    const postsLength = posts.length;
+
+    // 101件目以降があれば取得
+    if(total > 1) {
+        for(let i = 2; i <= total; i++) {
+            const res = await fetch(`${import.meta.env.PUBLIC_API_URL}posts?per_page=100&page=${i}`);
+            const morePosts = await res.json();
+            posts = posts.concat(morePosts);
+        }
+    }
+    return posts.sort(sortDate).map((post:any, i)=>{
+        return {
+            params: { slug: decodeURI(post.slug) },
+            props: {
+                post: post,
+                prevPost: i === 0 ? { slug: "" } : posts[i - 1],
+                nextPost: i + 1 === postsLength ? { slug: "" } : posts[i + 1],
+            },
+        }
+    });
+}
+
+interface Props {
+    post: {
+        slug: string,
+        content: {
+            rendered: string;
+        },
+        date: string,
+        title: {
+            rendered: string;
+        },
+        thumbnail: {
+            url: string;
+        }
+    }
+    prevPost: {
+        slug: string,
+    },
+    nextPost: {
+        slug: string,
+    },
+}
+
+// 各ページで使うデータ
 const { slug } = Astro.params;
-const res = await fetch(`${import.meta.env.PUBLIC_API_URL}posts?_embed&slug=${slug}`);
-const [post] = await res.json();
+const { post, prevPost, nextPost } = Astro.props;
+const renderedTitle = post.title.rendered;
 const renderedContent = post.content.rendered;
+const thumbnailUrl = post.thumbnail.url;
 const date_data = new Date(post.date);
 const year = date_data.getFullYear();
 const month = date_data.getMonth() + 1;
 const day = date_data.getDate();
 const date = `${year}/${month}/${day}`;
-
-export async function getStaticPaths() {
-    const data = await fetch(`${import.meta.env.PUBLIC_API_URL}posts`);
-    const posts = await data.json();
-
-    return posts.map((post:any) => ({
-        params: { slug: decodeURI(post.slug) },
-        props: { post: post },
-    }));
-}
 ---
-<Layout title={post.title.rendered} description={metas.discription}, dir={metas.dir}, path={metas.path}, menuBgBlue={false}>
+<Layout title={renderedTitle} description={metas.discription}, dir={metas.dir}, path={metas.path}, menuBgBlue={false}>
     <section class="l-second-page l-bg-blue">
         <div class="l-container">
             <article class="news">
                 <p class="date" set:html={date} />
-                <p class="title" set:html={post.title.rendered} />
-                <p class="thumbnail"><img src={post.thumbnail.url} alt={post.title} /></p>
+                <p class="title" set:html={renderedTitle} />
+                <p class="thumbnail"><img src={thumbnailUrl} alt={renderedTitle} /></p>
                 <div class="content">
                     <Fragment set:html={renderedContent} />
                 </div>
             </article>
+            <PrevNext
+                prevPostSlug={prevPost.slug},
+                nextPostSlug={nextPost.slug},
+                parentPage="news"
+            />
         </div>
     </section>
 </Layout>

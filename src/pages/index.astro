@@ -6,6 +6,7 @@ import SectionTitle from '../components/SectionTitle.astro';
 import Card from '../components/Card.astro';
 import CasesSwiper from '../components/CasesSwiper.astro';
 import CountButton from '../components/CountButton.astro';
+import SubTitle from '../components/SubTitle.astro';
 
 import '../scss/pages/pg-hero.scss'
 import '../scss/pages/pg-features.scss'
@@ -13,6 +14,7 @@ import '../scss/pages/pg-advantage.scss'
 import '../scss/pages/pg-recommend.scss'
 import '../scss/pages/pg-news.scss'
 import '../scss/pages/pg-start.scss'
+import '../scss/pages/pg-pokemon.scss'
 
 import { Image } from 'astro:assets';
 import heroImage from '../images/astronaut.png';
@@ -46,6 +48,23 @@ const advantageCard = [
 		text: ".tsや.tsxファイルをインポートしたり、コンポーネントの中で直接TypeScriptコードを書いたり、astro.config.tsファイルを使うこともできます。"
 	}
 ]
+
+//news
+const res = await fetch(`${import.meta.env.PUBLIC_API_URL}posts?_embed&per_page=5`); //per_pageで表示数を設定
+const news = await res.json();
+// Formatted Date
+const dateFormatt = (defaultDate) => {
+    const date_data = new Date(defaultDate);
+    const year = date_data.getFullYear();
+    const month = date_data.getMonth() + 1;
+    const day = date_data.getDate();
+    const date = `${year}/${month}/${day}`;
+    return date;
+}
+
+//pokemon
+const res2 = await fetch(`${import.meta.env.PUBLIC_API_URL}character?_embed&acf_format=standard&per_page=4`); //per_pageで表示数を設定
+const pokes = await res2.json();
 
 const metas = {
 	title: "Astro is the one.",
@@ -103,15 +122,25 @@ const metas = {
 		<section class="pg-news l-bg-white">
 			<div class="l-container">
 				<SectionTitle text="CMSも使えるよ" isWhite={false} />
-				<div class="news__wrap">
-					<li><a href=""><span class="date">2023/09/30</span><span class="title">ダミーテキストダミーテキストダミーテキスト</span></a></li>
-					<li><a href=""><span class="date">2023/09/30</span><span class="title">ダミーテキストダミーテキストダミーテキスト</span></a></li>
-					<li><a href=""><span class="date">2023/09/30</span><span class="title">ダミーテキストダミーテキストダミーテキスト</span></a></li>
-					<li><a href=""><span class="date">2023/09/30</span><span class="title">ダミーテキストダミーテキストダミーテキスト</span></a></li>
-					<li><a href=""><span class="date">2023/09/30</span><span class="title">ダミーテキストダミーテキストダミーテキスト</span></a></li>
-				</div>
+				<SubTitle text="最新ニュース5件" />
+				<ul class="news__wrap">
+					{news.map((news:any) => (
+						<li><a href={`/news/${news.slug}`}><span class="date">{dateFormatt(news.date)}</span><span class="title">{news.title.rendered}</span></a></li>
+					))}
+				</ul>
 				<CommonButton href="/news" text="一覧へ" bgColor="is__purple" isEng={false} />
 			</div>
+		</section>
+		<section class="pg-pokemon l-bg-white">
+			<div class="l-container">
+				<SectionTitle text="CPもACFも使えるよ" isWhite={false} />
+				<ul class="poke__wrap l-inner__flex">
+					{pokes.map((poke:any) => (
+						<li><a href={`/pokemon/${poke.slug}`}><img src={poke.thumbnail.url} alt={poke.acf.name}><span class="name">{poke.acf.name}</span></a></li>
+					))}
+				</ul>
+			</div>
+			<CommonButton href="/pokemon" text="一覧へ" bgColor="is__purple" isEng={false} />
 		</section>
 		<section class="pg-cases l-bg-white">
 			<div class="l-container">

@@ -1,0 +1,102 @@
+---
+interface Props {
+    pages: number[],
+    currentPage: number,
+    parentPage: string,
+}
+
+const { pages, currentPage, parentPage } = Astro.props;
+
+const maxDisplayedPages = 4;
+
+    const getPageNumbers = () => {
+        if (pages.length <= maxDisplayedPages) {
+            return pages;
+        }
+
+        const currentPageIndex = pages.indexOf(+currentPage);
+        const startIndex = Math.max(0, currentPageIndex - 1);
+        const endIndex = Math.min(pages.length - 1, startIndex + maxDisplayedPages - 2);
+
+        const displayedPages: (number | string)[] = [];
+
+        if (startIndex > 0) {
+            displayedPages.push(pages[0]);
+            if (startIndex > 1) {
+                displayedPages.push("...");
+            }
+        }
+
+        displayedPages.push(...pages.slice(startIndex, endIndex + 1));
+
+        if (endIndex < pages.length - 1) {
+            if (endIndex < pages.length - 2) {
+                displayedPages.push("...");
+            }
+            displayedPages.push(pages[pages.length - 1]);
+        }
+
+        return displayedPages;
+    };
+---
+
+<nav>
+    <ul>
+        {/* Previous Page */}
+        {currentPage > 1 && (
+            <li>
+                <a href={`/${parentPage}/page/${+currentPage - 1}`}>&lt;</a>
+            </li>
+        )}
+
+        {/* Page Number */}
+        {getPageNumbers().map((page) => (
+        <li>
+            {typeof page === "number" ? (
+            <a class:list={[{ 'is-active': page === +currentPage }]} href={page === 1 ? `/${parentPage}` : `/${parentPage}/page/${page}`}>{page}</a>
+            ) : (
+                <span>{page}</span>
+            )}
+        </li>
+        ))}
+
+        {/* Next Page */}
+        {currentPage < pages.length && (
+            <li>
+                <a href={`/${parentPage}/page/${+currentPage + 1}`}>&gt;</a>
+            </li>
+        )}
+    </ul>
+</nav>
+
+<style lang="scss">
+    nav {
+        display: flex;
+        justify-content: center;
+    }
+
+    ul {
+        display: flex;
+        list-style: none;
+        padding: 0;
+    }
+
+    li {
+        margin: 0 0.5rem;
+    }
+
+    a {
+        display: grid;
+        place-items: center;
+        width: 2em;
+        height: 2em;
+        text-decoration: none;
+        color: #333;
+    }
+
+    .is-active {
+        pointer-events: none;
+        background-color: #333;
+        color: #fff;
+    }
+</style>

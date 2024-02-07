@@ -1,0 +1,61 @@
+---
+import Layout from '../../../../../layouts/Layout.astro';
+import PageTitle from '../../../../../components/PageTitle.astro';
+import CharacterCard from '../../../../../components/CharacterCard.astro';
+import Pagination from '../../../../../components/Pagination.astro';
+
+const metas = {
+	title: "POKEMON",
+	discription: "CMS(カスタムフィールド)のページ🍓",
+	dir: '/pokemon',
+    path: '../'
+}
+
+// ルートの設定
+export async function getStaticPaths() {
+    const perPage = 3; // 1ページあたりの表示数
+    const result = [];//返却するやつ
+
+    // すべてのカテゴリ取得
+    const res = await fetch(`${import.meta.env.PUBLIC_API_URL}character_cat?per_page=100`);
+    const categories = await res.json();
+    // カテゴリごとに処理
+    for( const cat of categories ){
+        // 総ページ数を取得
+        const res = await fetch(`${import.meta.env.PUBLIC_API_URL}character?per_page=${perPage}&character_cat=${cat.id}`);
+        const total = Number(res.headers.get('x-wp-totalpages'));
+        const pages: number[] = Array(+total).fill(null).map((_, i) => i + 1);
+        // 2ページ目以降があれば処理
+        if(total > 1) {
+            for(let i = 2; i <= total; i++) {
+                const page = i.toString();
+                const res = await fetch(`${import.meta.env.PUBLIC_API_URL}character?per_page=${perPage}&character_cat=${cat.id}&page=${i}&acf_format=standard`);
+                const posts = await res.json();
+                result.push({ params: { category: cat.slug, page: page }, props: { posts: posts, total: total, catName: cat.name, pages: pages } });
+            }
+        }
+    }
+    return result;
+}
+
+const { category, page } = Astro.params;
+const { posts, total, catName, pages } = Astro.props;
+
+const getTermInfo = async (termId) => {
+    const res = await fetch(`${import.meta.env.PUBLIC_API_URL}character_cat/${termId}`);
+    const termData = await res.json();
+    return termData.name || '未分類'; // ターム名があれば取得、なければ '未分類'
+};
+
+---
+<Layout title={metas.title} description={metas.discription}, dir={metas.dir}, path={metas.path}, menuBgBlue={false}>
+    <section class="l-second-page l-bg-blue">
+        <div class="l-container">
+            <PageTitle text={`${catName}タイプのポケモン`} isWhite={true} />
+            {posts.map((post:any) => (
+                <CharacterCard href={`/pokemon/${post.slug}`} thumbnail={post.thumbnail.url} alt={post.acf.name} name={post.acf.name} cats={post.character_cat.map((catId:any) => getTermInfo(catId))}/>
+            ))}
+            <Pagination pages={pages} currentPage={page} parentPage={`pokemon/category/${category}`} />
+        </div>
+    </section>
+</Layout>

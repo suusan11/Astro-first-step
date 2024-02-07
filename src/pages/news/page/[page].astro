@@ -1,8 +1,8 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import PageTitle from '../../components/PageTitle.astro';
-import NewsCard from '../../components/NewsCard.astro';
-import Pagination from '../../components/Pagination.astro';
+import Layout from '../../../layouts/Layout.astro';
+import PageTitle from '../../../components/PageTitle.astro';
+import NewsCard from '../../../components/NewsCard.astro';
+import Pagination from '../../../components/Pagination.astro';
 
 const metas = {
 	title: "NEWS",
@@ -12,12 +12,8 @@ const metas = {
 }
 
 const { page } = Astro.params;
+const { posts, total, pages } = Astro.props;
 
-const res = await fetch(`${import.meta.env.PUBLIC_API_URL}posts?_embed&per_page=10`); //per_pageで表示数を設定
-const posts = await res.json();
-const total = Number( res.headers.get('x-wp-totalpages') );
-const pages: number[] = Array(+total).fill(null).map((_, i) => i + 1);
-const firstPage = 1;
 // Formatted Date
 const dateFormatt = (defaultDate) => {
     const date_data = new Date(defaultDate);
@@ -39,7 +35,30 @@ const omittedContent = (string) => {
     }
     return pureString;
 }
+
+export async function getStaticPaths() {
+    const perPage = 10;
+    const result : any[] = [];
+
+    // 総ページ数を取得
+    const res = await fetch(`${import.meta.env.PUBLIC_API_URL}posts?per_page=${perPage}`);
+    const total = res.headers.get('x-wp-totalpages');
+    const pages: number[] = Array(+total).fill(null).map((_, i) => i + 1);
+    // 2ページ目以降があれば処理
+    if(Number(total) > 1) {
+        for(let i = 2; i <= Number(total); i++) {
+            const res = await fetch(`${import.meta.env.PUBLIC_API_URL}posts?per_page=${perPage}&page=${i}`);
+            const posts = await res.json();
+            result.push({
+                params: { page: i },
+                props: { posts: posts, total: total, pages: pages }
+            });
+        }
+    }
+    return result;
+}
 ---
+
 <Layout title={metas.title} description={metas.discription}, dir={metas.dir}, path={metas.path}, menuBgBlue={false}>
     <section class="l-second-page l-bg-blue">
         <div class="l-container">
@@ -47,7 +66,7 @@ const omittedContent = (string) => {
             {posts.map((post:any) => (
                 <NewsCard href={`/news/${post.slug}`} thumbnail={post.thumbnail.url} alt={post.title.rendered} date={dateFormatt(post.date)} title={post.title.rendered} excerpt={omittedContent(post.content.rendered)}/>
             ))}
-            <Pagination pages={pages} currentPage={firstPage} parentPage="news" />
+            <Pagination pages={pages} currentPage={page} parentPage="news" />
         </div>
     </section>
 </Layout>

@@ -1,0 +1,56 @@
+---
+interface Props {
+    prevPostSlug: string,
+    nextPostSlug: string,
+    parentPage: string
+}
+const { prevPostSlug, nextPostSlug, parentPage} = Astro.props;
+---
+
+<ul class="l-inner__flex">
+    <li>{prevPostSlug ? <a class="prev" href={`/${parentPage}/${prevPostSlug}/`}>Prev</a> : ""}</li>
+    <li><a href={`/${parentPage}/`}>All</a></li>
+    <li class="next">{nextPostSlug ? <a class="next" href={`/${parentPage}/${nextPostSlug}/`}>Next</a> : ""}</li>
+</ul>
+
+<style lang="scss">
+    @use "../scss/foundation/rem" as r;
+
+    li {
+        width: 33%;
+        font-family: var(--font-en);
+        font-size: r.f-rem(16);
+        &:nth-child(1) {
+            text-align: left;
+        }
+        &:nth-child(2) {
+            text-align: center;
+        }
+        &:nth-child(3) {
+            text-align: right;
+        }
+        .prev::before {
+            content: '←';
+            display: inline-block;
+            margin-right: 0.5rem;
+            transition: transform 0.15s linear;
+        }
+        .next::after {
+            content: '→';
+            display: inline-block;
+            margin-left: 0.5rem;
+            transition: transform 0.15s linear;
+        }
+        @media (any-hover: hover) {
+            &:hover {
+                opacity: 0.8;
+                &.prev::before {
+                    transform: translateX(-5px);
+                }
+                &.next::after {
+                    transform: translateX(5px);
+                }
+            }
+        }
+    }
+</style>

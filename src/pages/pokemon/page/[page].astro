@@ -1,0 +1,56 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import PageTitle from '../../../components/PageTitle.astro';
+import CharacterCard from '../../../components/CharacterCard.astro';
+import Pagination from '../../../components/Pagination.astro';
+
+const metas = {
+	title: "POKEMON",
+	discription: "CMS(カスタムフィールド)のページ🍓",
+	dir: '/pokemon',
+    path: '../../'
+}
+
+const { page } = Astro.params;
+const { posts, total, pages } = Astro.props;
+
+export async function getStaticPaths() {
+    const perPage = 10;
+    const result : any[] = [];
+
+    // 総ページ数を取得
+    const res = await fetch(`${import.meta.env.PUBLIC_API_URL}character?per_page=${perPage}`);
+    const total = res.headers.get('x-wp-totalpages');
+    const pages: number[] = Array(+total).fill(null).map((_, i) => i + 1);
+    // 2ページ目以降があれば処理
+    if(Number(total) > 1) {
+        for(let i = 2; i <= Number(total); i++) {
+            const res = await fetch(`${import.meta.env.PUBLIC_API_URL}character?per_page=${perPage}&page=${i}`);
+            const posts = await res.json();
+            result.push({
+                params: { page: i },
+                props: { posts: posts, total: total, pages: pages }
+            });
+        }
+    }
+    return result;
+}
+const getTermInfo = async (termId:any) => {
+    const res = await fetch(`${import.meta.env.PUBLIC_API_URL}character_cat/${termId}`);
+    const termData = await res.json();
+    console.log(termData);
+    return termData.name || '未分類'; // ターム名があれば取得、なければ '未分類'
+};
+---
+
+<Layout title={metas.title} description={metas.discription}, dir={metas.dir}, path={metas.path}, menuBgBlue={false}>
+    <section class="l-second-page l-bg-blue">
+        <div class="l-container">
+            <PageTitle text="ポケモン" isWhite={true} />
+            {posts.map((post:any) => (
+                <CharacterCard href={`/pokemon/${post.slug}`} thumbnail={post.thumbnail.url} alt={post.acf.name} name={post.acf.name} cats={post.character_cat.map((catId:any) => getTermInfo(catId))}/>
+            ))}
+            <Pagination pages={pages} currentPage={page} parentPage="pokemon" />
+        </div>
+    </section>
+</Layout>
