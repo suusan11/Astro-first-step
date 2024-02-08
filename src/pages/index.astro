@@ -50,7 +50,7 @@ const advantageCard = [
 ]
 
 //news
-const res = await fetch(`${import.meta.env.API_URL}posts?_embed&per_page=5`); //per_pageで表示数を設定
+const res = await fetch(`${import.meta.env.PUBLIC_API_URL}posts?_embed&per_page=5`); //per_pageで表示数を設定
 const news = await res.json();
 // Formatted Date
 const dateFormatt = (defaultDate) => {
@@ -61,10 +61,10 @@ const dateFormatt = (defaultDate) => {
     const date = `${year}/${month}/${day}`;
     return date;
 }
-// console.log(import.meta.env.PUBLIC_API_URL)
+// console.log(import.meta.env.PUBLIC_PUBLIC_API_URL)
 
 //pokemon
-const res2 = await fetch(`${import.meta.env.API_URL}character?_embed&acf_format=standard&per_page=4`); //per_pageで表示数を設定
+const res2 = await fetch(`${import.meta.env.PUBLIC_API_URL}character?_embed&acf_format=standard&per_page=4`); //per_pageで表示数を設定
 const pokes = await res2.json();
 
 const metas = {
