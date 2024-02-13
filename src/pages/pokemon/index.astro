@@ -18,7 +18,7 @@ const posts = await res.json();
 const getTermInfo = async (termId) => {
     const res = await fetch(`${import.meta.env.PUBLIC_API_URL}character_cat/${termId}`);
     const termData = await res.json();
-    console.log(termData);
+    // console.log(termData);
     return termData.name || '未分類'; // ターム名があれば取得、なければ '未分類'
 };
 const total = Number( res.headers.get('x-wp-totalpages') );
